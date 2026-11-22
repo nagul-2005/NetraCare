@@ -99,7 +99,20 @@ def patient_chat_endpoint(
             answer = pending_action.get("summary", "Please confirm your action:")
         else:
             ai_msgs = [m for m in msgs if isinstance(m, AIMessage) and m.content]
-            answer = ai_msgs[-1].content if ai_msgs else "How can I assist you with NetraCare appointments?"
+            if ai_msgs:
+                c = ai_msgs[-1].content
+                if isinstance(c, list):
+                    text_parts = []
+                    for part in c:
+                        if isinstance(part, dict) and "text" in part:
+                            text_parts.append(part["text"])
+                        elif isinstance(part, str):
+                            text_parts.append(part)
+                    answer = " ".join(text_parts).strip() if text_parts else "How can I assist you with NetraCare appointments?"
+                else:
+                    answer = str(c)
+            else:
+                answer = "How can I assist you with NetraCare appointments?"
 
         # Extract sources from search_clinic_docs, get_lab_test_info, and skills
         sources = []
