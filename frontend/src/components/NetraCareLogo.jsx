@@ -2,16 +2,21 @@ import React from 'react';
 
 /**
  * NetraCareLogo
- * Custom ophthalmic emblem featuring an almond eye contour,
- * coral iris, optical pupil, specular catchlight, and precision clinical sparkle.
+ * YC-Classic Light SaaS Design: Small orange rounded square with a clean white optical eye icon.
  */
 export default function NetraCareLogo({ size = 32, className = '' }) {
+  const radius = Math.round(size * 0.28);
+  const strokeWidth = Math.max(1.75, size * 0.06);
+
   return (
     <div
       className={className}
       style={{
         width: `${size}px`,
         height: `${size}px`,
+        borderRadius: `${radius}px`,
+        background: 'linear-gradient(135deg, #ff6b35 0%, #e8551f 100%)',
+        boxShadow: '0 4px 10px -2px rgba(255, 107, 53, 0.40)',
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -20,48 +25,35 @@ export default function NetraCareLogo({ size = 32, className = '' }) {
       aria-label="NetraCare Eye Clinic Logo"
     >
       <svg
-        width={size}
-        height={size}
-        viewBox="0 0 48 48"
+        width={Math.round(size * 0.62)}
+        height={Math.round(size * 0.62)}
+        viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        style={{ display: 'block', overflow: 'visible' }}
+        style={{ display: 'block' }}
       >
-        {/* Soft background glow disc */}
-        <circle cx="24" cy="24" r="22" fill="#FFF1F0" />
-        
-        {/* Outer almond eye contour with organic softness */}
+        {/* Clean white eye contour */}
         <path
-          d="M 6 24 C 13 13, 35 13, 42 24 C 35 35, 13 35, 6 24 Z"
-          stroke="#292524"
-          strokeWidth="2.75"
+          d="M 2 12 C 5 6, 19 6, 22 12 C 19 18, 5 18, 2 12 Z"
+          stroke="#FFFFFF"
+          strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeLinejoin="round"
-          fill="#FFFFFF"
         />
-
-        {/* Coral iris disc */}
+        {/* Iris & pupil */}
         <circle
-          cx="24"
-          cy="24"
-          r="8.5"
-          fill="#FFB7B2"
-          stroke="rgba(255, 183, 178, 0.4)"
-          strokeWidth="1.5"
+          cx="12"
+          cy="12"
+          r="4"
+          stroke="#FFFFFF"
+          strokeWidth={strokeWidth}
+          fill="none"
         />
-
-        {/* Pupil */}
-        <circle cx="24" cy="24" r="4.5" fill="#292524" />
-
-        {/* Specular catchlight / gleam */}
-        <circle cx="26.2" cy="21.8" r="1.6" fill="#FFFFFF" />
-
-        {/* Precision clinical sparkle mark */}
-        <path
-          d="M 37 8 L 37 14 M 34 11 L 40 11"
-          stroke="#E07A72"
-          strokeWidth="2"
-          strokeLinecap="round"
+        <circle
+          cx="12"
+          cy="12"
+          r="1.75"
+          fill="#FFFFFF"
         />
       </svg>
     </div>

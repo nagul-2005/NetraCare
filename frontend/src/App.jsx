@@ -37,21 +37,20 @@ function MainApp() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative', width: '100%', overflowX: 'hidden' }}>
-      {/* 0.35 Opacity Analog Grain Texture Overlay */}
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative', width: '100%', background: 'var(--paper)' }}>
+      {/* Compatibility layer */}
       <GrainOverlay />
 
-      {/* Floating Glassy Pill-Shaped Navigation Bar */}
+      {/* YC-Classic Sticky Translucent Navigation Bar */}
       <Navbar currentTab={currentTab} setCurrentTab={setCurrentTab} />
 
       {/* Main Centered Application Content */}
       <main
         style={{
           flex: 1,
-          paddingTop: '88px',
+          paddingTop: '24px',
           paddingBottom: '48px',
           position: 'relative',
-          zIndex: 1,
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
@@ -95,32 +94,38 @@ function MainApp() {
         )}
       </main>
 
-      {/* Glassy Minimalist Footer */}
+      {/* YC-Classic SaaS Footer */}
       <footer
         style={{
           width: '100%',
-          background: 'rgba(255, 255, 255, 0.85)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
+          background: 'var(--paper)',
           borderTop: '1px solid var(--line)',
-          padding: '28px 20px',
-          textAlign: 'center',
-          color: 'var(--muted)',
-          fontSize: '0.9rem',
+          padding: '36px 24px',
           position: 'relative',
           zIndex: 1,
           boxSizing: 'border-box',
         }}
       >
         <div className="container" style={{ padding: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '6px', flexWrap: 'wrap' }}>
-            <NetraCareLogo size={24} />
-            <span style={{ fontWeight: 600, color: 'var(--ink)' }}>NetraCare AI Front Desk & Care Coordination</span>
-            <span>·</span>
-            <span className="cursive" style={{ fontSize: '18px', color: 'var(--muted)' }}>gentle clinical precision</span>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap', marginBottom: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <NetraCareLogo size={24} />
+              <span style={{ fontWeight: 800, color: 'var(--ink)', fontSize: '0.98rem', letterSpacing: '-0.03em' }}>NetraCare</span>
+              <span style={{ color: 'var(--muted)', fontSize: '0.85rem' }}>·</span>
+              <span style={{ fontSize: '0.85rem', color: 'var(--muted)', fontWeight: 500 }}>AI Front Desk & Care Coordination</span>
+            </div>
+            <div style={{ display: 'flex', gap: '18px', fontSize: '13px', fontWeight: 600, color: 'var(--slate2)' }}>
+              <span style={{ color: 'var(--orange)' }}>Single Rule Engine</span>
+              <span>·</span>
+              <span>FastAPI Backend</span>
+              <span>·</span>
+              <span>LangGraph Agent</span>
+              <span>·</span>
+              <span>Model Context Protocol</span>
+            </div>
           </div>
-          <p style={{ fontSize: '0.82rem', color: 'var(--muted)' }}>
-            Asia/Kolkata Timezone · Zero Double Bookings Guarantee · Deterministic Emergency Red-Flag Triage
+          <p style={{ fontSize: '0.82rem', color: 'var(--muted)', borderTop: '1px solid var(--line)', paddingTop: '16px', margin: 0 }}>
+            Asia/Kolkata Timezone · Zero Double Bookings Guarantee · Deterministic Emergency Red-Flag Triage · Synthetic Clinical Dataset
           </p>
         </div>
       </footer>

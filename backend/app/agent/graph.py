@@ -88,10 +88,11 @@ def _get_llm():
     try:
         from langchain_google_genai import ChatGoogleGenerativeAI
         return ChatGoogleGenerativeAI(
-            model="gemini-2.5-flash",
+            model="gemini-3.5-flash",
             google_api_key=api_key,
             temperature=0.0,
             timeout=15.0,
+            max_retries=1,
         ).bind_tools(ALL_TOOLS)
     except Exception:
         return None
@@ -230,11 +231,11 @@ def deterministic_agent_step(messages: List[BaseMessage], patient_id: str, db) -
                     tool_calls=[{
                         "name": "book_appointment",
                         "args": {
-                            "doctor_id": slot["doctor_id"],
-                            "speciality": slot["speciality"],
-                            "visit_type": slot["visit_type"],
-                            "date": slot["date"],
-                            "start_time": slot["start_time"],
+                            "doctor_id": slot.get("doctor_id", "D1"),
+                            "speciality": slot.get("speciality", "General"),
+                            "visit_type": slot.get("visit_type", "new"),
+                            "date": slot.get("date", now.date().isoformat()),
+                            "start_time": slot.get("start_time", "09:00"),
                             "reason": reason_val,
                         },
                         "id": "call_book_1",

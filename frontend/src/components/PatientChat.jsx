@@ -119,34 +119,32 @@ export default function PatientChat() {
   };
 
   return (
-    <div className="card" style={{ display: 'grid', gap: '14px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--line)', paddingBottom: '10px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{ background: 'var(--accent-soft)', color: 'var(--accent)', padding: '6px', borderRadius: '8px' }}>
-            <MessageSquare size={20} />
+    <div className="card" style={{ display: 'grid', gap: '16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--line)', paddingBottom: '14px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div className="icon-tile" style={{ width: '38px', height: '38px', borderRadius: '9px' }}>
+            <MessageSquare size={18} />
           </div>
           <div>
-            <h3 style={{ margin: 0, fontSize: '1.1rem' }}>NetraCare Booking Assistant</h3>
-            <span style={{ fontSize: '0.85rem', color: 'var(--muted)' }}>
-              Find slots, book, reschedule, cancel, and check clinic policies in real-time
-            </span>
+            <span className="eyebrow" style={{ marginBottom: '0' }}>Conversational Agent</span>
+            <h3 style={{ margin: 0, fontSize: '1.15rem' }}>NetraCare Booking Assistant</h3>
           </div>
         </div>
         <button
           onClick={handleNewChat}
           className="btn btn-secondary"
-          style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', fontSize: '0.85rem' }}
+          style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', fontSize: '0.84rem' }}
           title="Clear chat and start fresh"
         >
-          <RotateCcw size={14} /> New Chat
+          <RotateCcw size={13} /> New Chat
         </button>
       </div>
 
       {/* Suggested Questions */}
       {messages.length === 0 && (
         <div style={{ display: 'grid', gap: '8px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', color: 'var(--muted)' }}>
-            <Sparkles size={14} color="var(--accent)" /> Examples you can try:
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.84rem', color: 'var(--muted)', fontWeight: 600 }}>
+            <Sparkles size={14} color="var(--orange)" /> Examples you can try:
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
             {quickQuestions.map((q, idx) => (
@@ -154,14 +152,27 @@ export default function PatientChat() {
                 key={idx}
                 onClick={() => handleSend(q)}
                 style={{
-                  background: 'var(--accent-soft)',
-                  color: 'var(--accent)',
+                  background: 'var(--wash)',
+                  color: 'var(--slate2)',
                   border: '1px solid var(--line)',
-                  borderRadius: '20px',
+                  borderRadius: '9999px',
                   padding: '6px 12px',
                   fontSize: '0.82rem',
+                  fontWeight: 500,
                   cursor: 'pointer',
                   textAlign: 'left',
+                  transition: 'all 0.15s ease',
+                  fontFamily: 'var(--font-body)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--orange)';
+                  e.currentTarget.style.color = 'var(--orangeDark)';
+                  e.currentTarget.style.background = 'var(--orangeWash)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--line)';
+                  e.currentTarget.style.color = 'var(--slate2)';
+                  e.currentTarget.style.background = 'var(--wash)';
                 }}
               >
                 {q}
@@ -189,24 +200,29 @@ export default function PatientChat() {
               justifySelf: m.role === 'user' ? 'end' : 'start',
               maxWidth: '85%',
               background: m.role === 'user'
-                ? 'var(--accent)'
+                ? 'var(--orange)'
                 : m.emergency
                 ? 'var(--danger-soft)'
-                : 'var(--bg)',
+                : 'var(--wash)',
               color: m.role === 'user' ? '#ffffff' : 'var(--ink)',
-              border: m.emergency ? '2px solid var(--danger)' : '1px solid var(--line)',
-              borderRadius: m.role === 'user' ? '12px 12px 2px 12px' : '12px 12px 12px 2px',
+              border: m.emergency
+                ? '1px solid var(--danger-line)'
+                : m.role === 'user'
+                ? '1px solid var(--orangeDark)'
+                : '1px solid var(--line)',
+              borderRadius: m.role === 'user' ? '12px 12px 3px 12px' : '12px 12px 12px 3px',
               padding: '12px 16px',
               display: 'grid',
               gap: '8px',
+              boxShadow: m.role === 'user' ? 'var(--btn-orange-shadow)' : 'none',
             }}
           >
             {m.emergency && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--danger)', fontWeight: 700, fontSize: '0.9rem' }}>
-                <AlertTriangle size={16} /> EMERGENCY ALERT
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--danger)', fontWeight: 700, fontSize: '0.88rem' }}>
+                <AlertTriangle size={15} /> EMERGENCY ALERT
               </div>
             )}
-            <p style={{ margin: 0, fontSize: '0.95rem', lineHeight: '1.5', whiteSpace: 'pre-wrap' }}>
+            <p style={{ margin: 0, fontSize: '0.94rem', lineHeight: '1.55', whiteSpace: 'pre-wrap', color: m.role === 'user' ? '#ffffff' : 'inherit' }}>
               {m.content}
             </p>
 
@@ -214,16 +230,17 @@ export default function PatientChat() {
             {m.pending_action && idx === messages.length - 1 && (
               <div
                 style={{
-                  background: 'var(--surface)',
-                  border: '2px solid var(--accent)',
-                  borderRadius: '8px',
+                  background: 'var(--paper)',
+                  border: '1px solid var(--orangeLine)',
+                  borderRadius: '10px',
                   padding: '12px 14px',
                   display: 'grid',
                   gap: '10px',
                   marginTop: '4px',
+                  boxShadow: 'var(--card-shadow)',
                 }}
               >
-                <div style={{ fontWeight: 600, fontSize: '0.95rem', color: 'var(--ink)' }}>
+                <div style={{ fontWeight: 600, fontSize: '0.92rem', color: 'var(--ink)' }}>
                   {m.pending_action.summary}
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
@@ -235,26 +252,25 @@ export default function PatientChat() {
                       display: 'flex',
                       alignItems: 'center',
                       gap: '6px',
-                      padding: '8px 16px',
-                      fontSize: '0.9rem',
+                      padding: '7px 14px',
+                      fontSize: '0.88rem',
                     }}
                   >
-                    <CheckCircle size={16} /> Confirm
+                    <CheckCircle size={15} /> Confirm
                   </button>
                   <button
                     onClick={() => handleConfirm(false)}
                     disabled={loading}
-                    className="btn btn-secondary"
+                    className="btn btn-danger"
                     style={{
                       display: 'flex',
                       alignItems: 'center',
                       gap: '6px',
-                      padding: '8px 16px',
-                      fontSize: '0.9rem',
-                      color: 'var(--danger)',
+                      padding: '7px 14px',
+                      fontSize: '0.88rem',
                     }}
                   >
-                    <XCircle size={16} /> No
+                    <XCircle size={15} /> No
                   </button>
                 </div>
               </div>
@@ -262,20 +278,16 @@ export default function PatientChat() {
 
             {m.sources && m.sources.length > 0 && (
               <div style={{ borderTop: '1px dashed var(--line)', paddingTop: '6px', marginTop: '4px', display: 'flex', flexWrap: 'wrap', gap: '6px', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <span style={{ fontSize: '0.74rem', color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 600 }}>
                   <BookOpen size={12} /> Sources:
                 </span>
                 {m.sources.map((src, sIdx) => (
                   <span
                     key={sIdx}
+                    className="badge"
                     style={{
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: '0.74rem',
-                      background: 'var(--surface)',
-                      color: 'var(--accent)',
-                      border: '1px solid var(--line)',
-                      borderRadius: '4px',
-                      padding: '2px 6px',
+                      fontSize: '0.72rem',
+                      padding: '2px 8px',
                     }}
                   >
                     {src}
@@ -286,24 +298,24 @@ export default function PatientChat() {
           </div>
         ))}
         {loading && (
-          <div style={{ justifySelf: 'start', background: 'var(--bg)', border: '1px solid var(--line)', borderRadius: '12px', padding: '10px 14px', fontSize: '0.88rem', color: 'var(--muted)' }}>
+          <div style={{ justifySelf: 'start', background: 'var(--wash)', border: '1px solid var(--line)', borderRadius: '12px', padding: '10px 14px', fontSize: '0.88rem', color: 'var(--muted)' }}>
             Processing with clinic assistant...
           </div>
         )}
       </div>
 
       {error && (
-        <div style={{ background: 'var(--danger-soft)', color: 'var(--danger)', padding: '10px 14px', borderRadius: '8px', fontSize: '0.88rem' }}>
+        <div style={{ background: 'var(--danger-soft)', color: 'var(--danger)', border: '1px solid var(--danger-line)', padding: '10px 14px', borderRadius: '10px', fontSize: '0.88rem' }}>
           {error}
         </div>
       )}
 
       {/* Input area */}
-      <div style={{ display: 'grid', gap: '4px' }}>
+      <div style={{ display: 'grid', gap: '6px' }}>
         <div style={{ display: 'flex', gap: '8px' }}>
           <input
             type="text"
-            className="input"
+            className="form-control"
             placeholder={pendingAction ? "Type a new question or press Confirm / No on the card..." : "Ask to find slots, book, cancel, reschedule, or ask a question..."}
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -318,11 +330,11 @@ export default function PatientChat() {
             className="btn btn-primary"
             style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
           >
-            <Send size={16} /> Send
+            <Send size={15} /> Send
           </button>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--muted)', paddingInline: '4px' }}>
-          <span>Enter to send · Write actions always wait for your confirmation</span>
+          <span>Enter to send · State-changing actions wait for your confirmation</span>
           <span style={{ color: input.length > 450 ? 'var(--danger)' : 'var(--muted)' }}>
             {input.length}/500
           </span>

@@ -132,17 +132,18 @@ export default function StaffDashboard() {
 
   return (
     <div className="container" style={{ display: 'grid', gap: '24px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
         <div>
-          <h2 style={{ fontSize: '1.9rem' }}>Staff Care Coordination Desk</h2>
-          <p style={{ color: 'var(--muted)', fontSize: '0.95rem' }}>Full clinic roster, urgent safety cases, approvals & walk-ins.</p>
+          <span className="eyebrow">Front Desk Operations</span>
+          <h2 style={{ fontSize: '1.9rem', marginTop: '2px', color: 'var(--ink)' }}>Staff Care Coordination Desk</h2>
+          <p style={{ color: 'var(--muted)', fontSize: '0.94rem' }}>Full clinic roster, urgent safety cases, approvals & walk-ins.</p>
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <button className="btn btn-primary" onClick={() => setShowWalkinModal(true)}>
             <Plus size={16} /> Book Walk-in / On-Behalf
           </button>
           <button className="btn btn-secondary" onClick={refreshAll}>
-            <RefreshCw size={14} /> Refresh
+            <RefreshCw size={13} /> Refresh
           </button>
         </div>
       </div>
@@ -152,11 +153,11 @@ export default function StaffDashboard() {
         <div className="banner-urgent" style={{ display: 'grid', gap: '12px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <AlertTriangle size={24} color="var(--danger)" />
-            <h3 style={{ margin: 0, color: 'var(--danger)' }}>
+            <h3 style={{ margin: 0, color: 'var(--danger)', fontSize: '1.15rem' }}>
               URGENT CASES ({urgentCases.length} Requiring Immediate Clinic Action)
             </h3>
           </div>
-          <p style={{ fontSize: '0.9rem', color: 'var(--ink)' }}>
+          <p style={{ fontSize: '0.88rem', color: 'var(--ink)', margin: 0 }}>
             These patients reported red-flag ocular symptoms. Emergency alert was sent and bookings were safely stopped.
           </p>
 
@@ -165,24 +166,25 @@ export default function StaffDashboard() {
               <div
                 key={c.id}
                 style={{
-                  background: '#ffffff',
-                  border: '1px solid var(--danger)',
-                  borderRadius: '8px',
+                  background: 'var(--paper)',
+                  border: '1px solid var(--danger-line)',
+                  borderRadius: '10px',
                   padding: '12px 16px',
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
+                  boxShadow: 'var(--card-shadow)',
                 }}
               >
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ fontWeight: 700, color: 'var(--ink)' }}>{c.patient_name}</span>
-                    <span className="mono" style={{ fontSize: '0.8rem', color: 'var(--muted)' }}>({c.patient_id || 'Walk-in / Unregistered'})</span>
-                    <span className={`badge ${c.source === 'MCP' ? 'badge-danger' : 'badge-sx'}`}>
+                    <span className="mono" style={{ fontSize: '0.78rem' }}>({c.patient_id || 'Walk-in / Unregistered'})</span>
+                    <span className={`badge ${c.source === 'MCP' ? 'badge-cancelled' : ''}`}>
                       {c.source === 'MCP' ? 'from MCP' : `Source: ${c.source}`}
                     </span>
                   </div>
-                  <p style={{ fontSize: '0.9rem', color: 'var(--danger)', fontWeight: 600, marginTop: '4px' }}>
+                  <p style={{ fontSize: '0.88rem', color: 'var(--danger)', fontWeight: 600, marginTop: '4px', margin: 0 }}>
                     {c.summary}
                   </p>
                 </div>
@@ -201,11 +203,12 @@ export default function StaffDashboard() {
 
       {/* Doctor Leave Rebookings Queue (R7) */}
       {rebookings.length > 0 && (
-        <div className="card" style={{ borderLeft: '4px solid #f59e0b' }}>
-          <h3 style={{ fontSize: '1.2rem', marginBottom: '8px' }}>
+        <div className="card" style={{ borderLeft: '3px solid var(--orange)' }}>
+          <span className="eyebrow">Doctor Leave Management</span>
+          <h3 style={{ fontSize: '1.2rem', marginBottom: '6px', color: 'var(--ink)' }}>
             Doctor Leave Rebooking Proposals ({rebookings.length} Pending Approval)
           </h3>
-          <p style={{ color: 'var(--muted)', fontSize: '0.9rem', marginBottom: '12px' }}>
+          <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginBottom: '14px' }}>
             Automated rebooking proposals generated when doctors mark leave. Review and approve to confirm the new booking.
           </p>
 
@@ -215,35 +218,35 @@ export default function StaffDashboard() {
                 key={rb.id}
                 style={{
                   border: '1px solid var(--line)',
-                  borderRadius: '8px',
+                  borderRadius: '10px',
                   padding: '12px 16px',
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  background: 'var(--bg)',
+                  background: 'var(--wash)',
                 }}
               >
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                    <span className="badge badge-opd">{rb.speciality} ({rb.visit_type})</span>
-                    <span style={{ fontWeight: 600 }}>{rb.patient_name}</span>
-                    <span style={{ fontSize: '0.85rem', color: 'var(--muted)' }}>Proposed with {rb.doctor_name}</span>
+                    <span className="badge">{rb.speciality} ({rb.visit_type})</span>
+                    <span style={{ fontWeight: 700, color: 'var(--ink)' }}>{rb.patient_name}</span>
+                    <span style={{ fontSize: '0.84rem', color: 'var(--muted)' }}>Proposed with {rb.doctor_name}</span>
                   </div>
-                  <div style={{ fontSize: '0.88rem', color: 'var(--ink)' }}>
+                  <div style={{ fontSize: '0.86rem', color: 'var(--ink)' }}>
                     New slot: <b>{rb.date} at {rb.start_time}–{rb.end_time}</b> · <span style={{ color: 'var(--muted)' }}>{rb.reason}</span>
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <button
                     className="btn btn-primary"
-                    style={{ padding: '6px 12px', fontSize: '0.85rem' }}
+                    style={{ padding: '6px 12px', fontSize: '0.82rem' }}
                     onClick={() => handleApproveRebooking(rb.id)}
                   >
                     Approve
                   </button>
                   <button
                     className="btn btn-secondary"
-                    style={{ padding: '6px 12px', fontSize: '0.85rem' }}
+                    style={{ padding: '6px 12px', fontSize: '0.82rem' }}
                     onClick={() => handleRejectRebooking(rb.id)}
                   >
                     Reject
@@ -257,11 +260,12 @@ export default function StaffDashboard() {
 
       {/* Approvals Queue */}
       {approvals.length > 0 && (
-        <div className="card" style={{ borderLeft: '4px solid var(--accent)' }}>
-          <h3 style={{ fontSize: '1.2rem', marginBottom: '12px' }}>
+        <div className="card" style={{ borderLeft: '3px solid var(--orange)' }}>
+          <span className="eyebrow">Cutoff Exceptions</span>
+          <h3 style={{ fontSize: '1.2rem', marginBottom: '6px', color: 'var(--ink)' }}>
             Staff Approval Queue ({approvals.length} Pending)
           </h3>
-          <p style={{ color: 'var(--muted)', fontSize: '0.9rem', marginBottom: '12px' }}>
+          <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginBottom: '14px' }}>
             Requests made inside the 2-hour cutoff window requiring staff review.
           </p>
 
@@ -271,86 +275,30 @@ export default function StaffDashboard() {
                 key={appr.id}
                 style={{
                   border: '1px solid var(--line)',
-                  borderRadius: '8px',
+                  borderRadius: '10px',
                   padding: '12px 16px',
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  background: 'var(--bg)',
+                  background: 'var(--wash)',
                 }}
               >
                 <div>
-                  <span className="badge badge-opd" style={{ marginRight: '8px' }}>{appr.kind}</span>
-                  <span style={{ fontWeight: 600 }}>Appointment {appr.appointment_id}</span>
+                  <span className="badge" style={{ marginRight: '8px' }}>{appr.kind}</span>
+                  <span style={{ fontWeight: 700, color: 'var(--ink)' }}>Appointment {appr.appointment_id}</span>
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <button
                     className="btn btn-primary"
-                    style={{ padding: '6px 12px', fontSize: '0.85rem' }}
+                    style={{ padding: '6px 12px', fontSize: '0.82rem' }}
                     onClick={() => handleDecideApproval(appr.id, 'APPROVED')}
                   >
                     Approve
                   </button>
                   <button
                     className="btn btn-secondary"
-                    style={{ padding: '6px 12px', fontSize: '0.85rem' }}
+                    style={{ padding: '6px 12px', fontSize: '0.82rem' }}
                     onClick={() => handleDecideApproval(appr.id, 'REJECTED')}
-                  >
-                    Reject
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Doctor Leave Rebookings Queue (R7) */}
-      {rebookings.length > 0 && (
-        <div className="card" style={{ borderLeft: '4px solid #f59e0b' }}>
-          <h3 style={{ fontSize: '1.2rem', marginBottom: '8px' }}>
-            Doctor Leave Rebooking Proposals ({rebookings.length} Pending Approval)
-          </h3>
-          <p style={{ color: 'var(--muted)', fontSize: '0.9rem', marginBottom: '12px' }}>
-            Automated rebooking proposals generated when doctors mark leave. Review and approve to confirm the new booking.
-          </p>
-
-          <div style={{ display: 'grid', gap: '8px' }}>
-            {rebookings.map((rb) => (
-              <div
-                key={rb.id}
-                style={{
-                  border: '1px solid var(--line)',
-                  borderRadius: '8px',
-                  padding: '12px 16px',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  background: 'var(--bg)',
-                }}
-              >
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                    <span className="badge badge-opd">{rb.speciality} ({rb.visit_type})</span>
-                    <span style={{ fontWeight: 600 }}>{rb.patient_name}</span>
-                    <span style={{ fontSize: '0.85rem', color: 'var(--muted)' }}>Proposed with {rb.doctor_name}</span>
-                  </div>
-                  <div style={{ fontSize: '0.88rem', color: 'var(--ink)' }}>
-                    New slot: <b>{rb.date} at {rb.start_time}–{rb.end_time}</b> · <span style={{ color: 'var(--muted)' }}>{rb.reason}</span>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <button
-                    className="btn btn-primary"
-                    style={{ padding: '6px 12px', fontSize: '0.85rem' }}
-                    onClick={() => handleApproveRebooking(rb.id)}
-                  >
-                    Approve
-                  </button>
-                  <button
-                    className="btn btn-secondary"
-                    style={{ padding: '6px 12px', fontSize: '0.85rem' }}
-                    onClick={() => handleRejectRebooking(rb.id)}
                   >
                     Reject
                   </button>
@@ -367,24 +315,27 @@ export default function StaffDashboard() {
       {/* Appointment Roster with Filters */}
       <div className="card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
-          <h3 style={{ fontSize: '1.3rem' }}>Clinic Appointment Master List</h3>
+          <div>
+            <span className="eyebrow">Clinic Records</span>
+            <h3 style={{ fontSize: '1.25rem', margin: 0, color: 'var(--ink)' }}>Clinic Appointment Master List</h3>
+          </div>
 
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-            <label style={{ fontSize: '0.9rem', fontWeight: 600 }}>Date:</label>
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <label style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--ink)' }}>Date:</label>
             <input
               type="date"
               className="form-control"
               value={filterDate}
               onChange={(e) => setFilterDate(e.target.value)}
-              style={{ width: '160px' }}
+              style={{ width: '155px' }}
             />
 
-            <label style={{ fontSize: '0.9rem', fontWeight: 600, marginLeft: '6px' }}>Doctor:</label>
+            <label style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--ink)', marginLeft: '6px' }}>Doctor:</label>
             <select
               className="form-control"
               value={selectedDoctor}
               onChange={(e) => setSelectedDoctor(e.target.value)}
-              style={{ width: '180px' }}
+              style={{ width: '175px' }}
             >
               <option value="">All Doctors</option>
               {doctors.map((d) => (
@@ -395,41 +346,41 @@ export default function StaffDashboard() {
         </div>
 
         {loading ? (
-          <p style={{ color: 'var(--muted)' }}>Loading appointments...</p>
+          <p style={{ color: 'var(--muted)', fontSize: '0.9rem' }}>Loading appointments...</p>
         ) : appointments.length === 0 ? (
-          <p style={{ color: 'var(--muted)' }}>No appointments found matching filters.</p>
+          <p style={{ color: 'var(--muted)', fontSize: '0.9rem' }}>No appointments found matching filters.</p>
         ) : (
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.92rem' }}>
+          <div className="schedule-table-wrapper">
+            <table className="schedule-table">
               <thead>
-                <tr style={{ background: 'var(--bg)', borderBottom: '1px solid var(--line)' }}>
-                  <th style={{ padding: '10px' }}>ID</th>
-                  <th style={{ padding: '10px' }}>Time</th>
-                  <th style={{ padding: '10px' }}>Patient</th>
-                  <th style={{ padding: '10px' }}>Doctor</th>
-                  <th style={{ padding: '10px' }}>Speciality</th>
-                  <th style={{ padding: '10px' }}>Status</th>
-                  <th style={{ padding: '10px' }}>Source</th>
-                  <th style={{ padding: '10px', textAlign: 'right' }}>Actions</th>
+                <tr>
+                  <th style={{ textAlign: 'left' }}>ID</th>
+                  <th>Time</th>
+                  <th style={{ textAlign: 'left' }}>Patient</th>
+                  <th style={{ textAlign: 'left' }}>Doctor</th>
+                  <th style={{ textAlign: 'left' }}>Speciality</th>
+                  <th>Status</th>
+                  <th>Source</th>
+                  <th style={{ textAlign: 'right' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {appointments.map((a) => (
-                  <tr key={a.id} style={{ borderBottom: '1px solid var(--line)' }}>
-                    <td style={{ padding: '10px' }} className="mono">{a.id}</td>
-                    <td style={{ padding: '10px' }} className="mono">{a.start_time} - {a.end_time}</td>
-                    <td style={{ padding: '10px', fontWeight: 600 }}>{a.patient_name} ({a.patient_id})</td>
-                    <td style={{ padding: '10px' }}>{a.doctor_name}</td>
-                    <td style={{ padding: '10px' }}>{a.speciality} ({a.visit_type})</td>
-                    <td style={{ padding: '10px' }}>
+                  <tr key={a.id}>
+                    <td style={{ textAlign: 'left' }} className="mono">{a.id}</td>
+                    <td className="mono">{a.start_time} - {a.end_time}</td>
+                    <td style={{ textAlign: 'left', fontWeight: 700, color: 'var(--ink)' }}>{a.patient_name} ({a.patient_id})</td>
+                    <td style={{ textAlign: 'left' }}>{a.doctor_name}</td>
+                    <td style={{ textAlign: 'left' }}>{a.speciality} ({a.visit_type})</td>
+                    <td>
                       <span className={`badge badge-${a.status}`}>{a.status}</span>
                     </td>
-                    <td style={{ padding: '10px', fontSize: '0.8rem', color: 'var(--muted)' }}>Booked via {a.source}</td>
-                    <td style={{ padding: '10px', textAlign: 'right' }}>
+                    <td style={{ fontSize: '0.78rem', color: 'var(--muted)' }}>Booked via {a.source}</td>
+                    <td style={{ textAlign: 'right' }}>
                       {a.status === 'booked' && (
                         <button
                           className="btn btn-danger"
-                          style={{ padding: '4px 10px', fontSize: '0.8rem' }}
+                          style={{ padding: '4px 10px', fontSize: '0.78rem' }}
                           onClick={() => handleStaffCancel(a.id)}
                         >
                           Cancel
@@ -452,25 +403,27 @@ export default function StaffDashboard() {
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'rgba(0,0,0,0.5)',
+          background: 'rgba(15, 23, 42, 0.4)',
+          backdropFilter: 'blur(4px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           zIndex: 1000,
           padding: '16px',
         }}>
-          <div className="card" style={{ maxWidth: '520px', width: '100%', padding: '28px' }}>
-            <h3 style={{ fontSize: '1.4rem', marginBottom: '14px' }}>Book Walk-in / On-Behalf</h3>
+          <div className="card" style={{ maxWidth: '520px', width: '100%', padding: '28px', boxShadow: 'var(--browser-shadow)' }}>
+            <span className="eyebrow">Front Desk Scheduling</span>
+            <h3 style={{ fontSize: '1.35rem', marginBottom: '14px', color: 'var(--ink)' }}>Book Walk-in / On-Behalf</h3>
 
             {walkinError && (
               <div style={{
                 background: 'var(--danger-soft)',
-                border: '1px solid var(--danger)',
+                border: '1px solid var(--danger-line)',
                 color: 'var(--danger)',
-                padding: '10px',
+                padding: '10px 14px',
                 borderRadius: '8px',
                 marginBottom: '12px',
-                fontSize: '0.9rem',
+                fontSize: '0.88rem',
               }}>
                 {walkinError}
               </div>
@@ -591,4 +544,3 @@ export default function StaffDashboard() {
     </div>
   );
 }
-

@@ -35,44 +35,95 @@ class ParsedAnswer(BaseModel):
     source_ids: List[str] = Field(default_factory=list)
     answered: bool = True
 
-def rewrite_question(latest_message: str, history: List[Dict[str, str]]) -> str:
-    """Rewrite follow-up questions taking recent conversation into account."""
-    if not history:
-        return latest_message.strip()
-
-    # Look back at user & assistant messages for context
-    context_topics = []
-    for msg in reversed(history[-6:]):
-        content = msg.get("content", "").lower()
-        if "cataract" in content:
-            context_topics.append("cataract surgery")
-        elif "lasik" in content:
-            context_topics.append("LASIK")
-        elif "squint" in content:
-            context_topics.append("squint surgery")
-        elif "glaucoma" in content:
-            context_topics.append("glaucoma")
-        elif "dilation" in content or "dilating drops" in content or "drops" in content:
-            context_topics.append("dilation drops")
-        elif "diabetic" in content or "retina" in content:
-            context_topics.append("diabetic eye check")
-
-    target_topic = context_topics[0] if context_topics else None
-
-    q = latest_message.strip()
-    q_lower = q.lower()
-
-    # If message contains pronoun references like 'after it', 'before it', 'for it', 'avoid after it'
-    if target_topic:
-        if re.search(r"\b(after it|before it|about it|for it|of it|with it)\b", q_lower):
-            q = re.sub(r"\b(after it)\b", f"after {target_topic}", q, flags=re.IGNORECASE)
-            q = re.sub(r"\b(before it)\b", f"before {target_topic}", q, flags=re.IGNORECASE)
-            q = re.sub(r"\b(for it)\b", f"for {target_topic}", q, flags=re.IGNORECASE)
-            q = re.sub(r"\b(about it)\b", f"about {target_topic}", q, flags=re.IGNORECASE)
-        elif re.search(r"^(what should i avoid|how long|what is the cost|when can i)\b", q_lower) and target_topic not in q_lower:
-            q = f"{q} after {target_topic}"
-
+def normalize_clinical_terms(text: str) -> str:
+    """Normalize common typos, colloquialisms, and ocular symptoms into canonical search terms."""
+    q = text
+    replacements = [
+        (r"\bmiss[\s-]aligned\b", "misaligned squint strabismus"),
+        (r"\b(neice)\b", "niece"),
+        (r"\b(\d+)\s*(yr|yrs|y/o|year|years)\s*old\b", r"\1 years old child paediatric"),
+        (r"\b(kid|kids|child|children|baby|toddler|son|daughter|niece|nephew)\b", r"\1 paediatric under 16"),
+        (r"\b(cross|crossed)[\s-]eyes?\b", "squint strabismus"),
+        (r"\b(lazy)[\s-]eye\b", "amblyopia squint"),
+        (r"\b(aankh mein jalan|jalan|sukhapan|sandy|gritty)\b", "dry eye tear film"),
+        (r"\b(motiyabind|dirty window|cloudy|misty)\b", "cataract"),
+        (r"\b(kala motia|pressure|iop)\b", "glaucoma eye pressure"),
+        (r"\b(parda|flashes|floaters)\b", "retina vitreous"),
+        (r"\b(chashma|specs|glasses|get rid of glasses)\b", "refractive LASIK"),
+    ]
+    for pattern, repl in replacements:
+        q = re.sub(pattern, repl, q, flags=re.IGNORECASE)
     return q
+
+def rewrite_question(latest_message: str, history: List[Dict[str, str]] = None) -> str:
+    """Rewrite follow-up questions taking recent conversation and messy clinical queries into account."""
+    q = latest_message.strip()
+    
+    # 1. Normalize colloquialisms and typos
+    q_norm = normalize_clinical_terms(q)
+
+    # 2. Contextual follow-up pronoun rewriting
+    if history:
+        context_topics = []
+        for msg in reversed(history[-6:]):
+            content = msg.get("content", "").lower()
+            if "cataract" in content:
+                context_topics.append("cataract surgery")
+            elif "lasik" in content:
+                context_topics.append("LASIK")
+            elif "squint" in content:
+                context_topics.append("squint surgery")
+            elif "glaucoma" in content:
+                context_topics.append("glaucoma")
+            elif "dilation" in content or "dilating drops" in content or "drops" in content:
+                context_topics.append("dilation drops")
+            elif "diabetic" in content or "retina" in content:
+                context_topics.append("diabetic eye check")
+
+        target_topic = context_topics[0] if context_topics else None
+        q_lower = q_norm.lower()
+
+        if target_topic:
+            if re.search(r"\b(after it|before it|about it|for it|of it|with it)\b", q_lower):
+                q_norm = re.sub(r"\b(after it)\b", f"after {target_topic}", q_norm, flags=re.IGNORECASE)
+                q_norm = re.sub(r"\b(before it)\b", f"before {target_topic}", q_norm, flags=re.IGNORECASE)
+                q_norm = re.sub(r"\b(for it)\b", f"for {target_topic}", q_norm, flags=re.IGNORECASE)
+                q_norm = re.sub(r"\b(about it)\b", f"about {target_topic}", q_norm, flags=re.IGNORECASE)
+            elif re.search(r"^(what should i avoid|how long|what is the cost|when can i)\b", q_lower) and target_topic not in q_lower:
+                q_norm = f"{q_norm} after {target_topic}"
+
+    # 3. Optional LLM rewriter for complex ambiguous queries (if API key available and valid)
+    if settings.GEMINI_API_KEY and len(q.split()) > 3:
+        try:
+            from langchain_google_genai import ChatGoogleGenerativeAI
+            from langchain_core.prompts import PromptTemplate
+            from langchain_core.output_parsers import StrOutputParser
+
+            llm = ChatGoogleGenerativeAI(
+                model="gemini-3.5-flash",
+                temperature=0.0,
+                google_api_key=settings.GEMINI_API_KEY,
+                timeout=3.0,
+                max_retries=0,
+            )
+            prompt = PromptTemplate(
+                template="""You are a search query rewriter for NetraCare Eye Clinic knowledge base.
+Rewrite the patient's inquiry into a clean, concise (under 12 words) search query.
+Correct typos, resolve colloquial terms to clinical keywords (e.g. misaligned eyes -> paediatric squint strabismus), and preserve age/demographic.
+Do NOT answer the question. Only output the rewritten search query.
+
+Patient Inquiry: {query}
+Rewritten Search Query:""",
+                input_variables=["query"],
+            )
+            chain = prompt | llm | StrOutputParser()
+            rewritten_llm = chain.invoke({"query": q}).strip()
+            if rewritten_llm and len(rewritten_llm) < 150:
+                return rewritten_llm
+        except Exception:
+            pass
+
+    return q_norm
 
 def generate_chat_answer(
     rewritten_query: str,
@@ -142,10 +193,11 @@ def generate_chat_answer(
             from langchain_core.output_parsers import JsonOutputParser
 
             llm = ChatGoogleGenerativeAI(
-                model="gemini-2.5-flash",
+                model="gemini-3.5-flash",
                 temperature=0.0,
                 google_api_key=settings.GEMINI_API_KEY,
                 timeout=10.0,
+                max_retries=1,
             )
 
             prompt = PromptTemplate(
@@ -356,10 +408,13 @@ Return JSON with exact keys:
             answered=True,
         )
 
-    # Paediatric / Squint (children under 16, turns inwards, sits close to TV, wanders)
-    if any(k in q_lower for k in ["year old", "daughter sits very close", "child", "son", "kid", "turns inwards", "squints at the board", "wanders off", "wanders"]):
+    # Paediatric / Squint (children under 16, turns inwards, sits close to TV, wanders, misaligned)
+    if any(k in q_lower for k in [
+        "year old", "yr old", "daughter sits very close", "child", "son", "kid", "niece", "neice", "nephew",
+        "turns inwards", "squints at the board", "wanders off", "wanders", "misaligned", "miss aligned", "cross eye", "crossed eyes"
+    ]):
         return ParsedAnswer(
-            answer="A Paediatric specialist can assess this. At NetraCare, children and eye misalignment are cared for by Dr. Vikram Menon. The doctor will examine your child at the visit.",
+            answer="A Paediatric and Squint specialist can assess this. At NetraCare, children and eye misalignment (squint/strabismus) are cared for by Dr. Vikram Menon. The doctor will examine your child at the visit.",
             source_ids=["doctors_paediatric", "doctors_squint"],
             answered=True,
         )
@@ -388,19 +443,24 @@ Return JSON with exact keys:
             answered=True,
         )
 
-    # General (new glasses, watering, reading headache, not sure)
-    if any(k in q_lower for k in ["just need new glasses", "new glasses", "water and itch a little", "headaches when i read", "not sure whats wrong", "routine eye test"]):
+    # General & Blurry vision (blurry views, new glasses, watering, reading headache, not sure)
+    if any(k in q_lower for k in [
+        "blurry view", "blurry views", "blurry", "blurred vision", "blurred", "blur", "blurriness",
+        "trouble seeing", "cannot see clearly", "vision not clear", "just need new glasses", "new glasses",
+        "water and itch a little", "headaches when i read", "not sure whats wrong", "routine eye test"
+    ]):
         return ParsedAnswer(
-            answer="Our General eye specialists can assess this. At NetraCare, our General doctors are Dr. Anand Rao, Dr. Kiran Shah, and Dr. Vikram Menon. A doctor will assess you at your visit.",
+            answer="Our General Ophthalmology specialists can assess blurry or reduced vision. At NetraCare, our General doctors are Dr. Anand Rao, Dr. Kiran Shah, and Dr. Vikram Menon (and Dr. Anand Rao/Dr. Meera Iyer if related to cataracts). A doctor will thoroughly examine your eyes to determine the exact cause and recommend appropriate care.",
             source_ids=["doctors_general"],
             answered=True,
         )
 
     # If top chunk has high relevance, synthesize directly from chunk content
     if top_chunk and top_score > 0.4:
-        content_snippet = top_chunk.content.split("\n\n")[0]
+        clean_chunk = re.sub(r"^#+\s*.*?\n", "", top_chunk.content).strip()
+        snippet = clean_chunk[:220].strip()
         return ParsedAnswer(
-            answer=f"According to our clinic guide ({top_chunk.section}): {content_snippet[:200]}... Please consult our staff or doctor for specific advice.",
+            answer=f"According to our clinic guide ({top_chunk.section}): {snippet}... Please consult our front desk or an eye specialist for tailored medical guidance.",
             source_ids=[top_chunk.chunk_id],
             answered=True,
         )

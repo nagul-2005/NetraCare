@@ -3,7 +3,7 @@ import { api } from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import FactOfTheDay from '../components/FactOfTheDay';
 import PatientChat from '../components/PatientChat';
-import { Calendar, Clock, AlertTriangle, CheckCircle, XCircle, RefreshCw, UserCheck } from 'lucide-react';
+import { Calendar, Clock, AlertTriangle, CheckCircle, XCircle, RefreshCw, UserCheck, Stethoscope, Activity, FileText, CheckCircle2, ClipboardList } from 'lucide-react';
 
 export default function PatientDashboard() {
   const { user } = useAuth();
@@ -130,8 +130,9 @@ export default function PatientDashboard() {
   return (
     <div className="container" style={{ display: 'grid', gap: '28px' }}>
       <div>
-        <h2 style={{ fontSize: '2rem' }}>Welcome, {user.name}</h2>
-        <p style={{ color: 'var(--muted)', fontSize: '0.95rem' }}>
+        <span className="eyebrow">Patient Portal</span>
+        <h2 style={{ fontSize: '2rem', marginTop: '2px', color: 'var(--ink)' }}>Welcome, {user.name}</h2>
+        <p style={{ color: 'var(--muted)', fontSize: '0.94rem' }}>
           Patient ID: <span className="mono">{user.id}</span> · Book, manage, or cancel your consultations.
         </p>
       </div>
@@ -145,29 +146,31 @@ export default function PatientDashboard() {
       {emergencyAlert && (
         <div className="banner-urgent">
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-            <AlertTriangle size={24} />
-            <h3 style={{ color: 'var(--danger)', margin: 0 }}>URGENT MEDICAL ATTENTION REQUIRED</h3>
+            <AlertTriangle size={22} />
+            <h3 style={{ color: 'var(--danger)', margin: 0, fontSize: '1.15rem' }}>URGENT MEDICAL ATTENTION REQUIRED</h3>
           </div>
-          <p style={{ fontSize: '1.05rem', fontWeight: 600 }}>{emergencyAlert}</p>
+          <p style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--danger)' }}>{emergencyAlert}</p>
         </div>
       )}
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(320px, 420px) 1fr', gap: '24px', alignItems: 'start' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '24px', alignItems: 'start' }}>
         {/* Booking Wizard Card */}
         <div className="card">
-          <h3 style={{ fontSize: '1.3rem', marginBottom: '16px' }}>Book an Appointment</h3>
+          <span className="eyebrow">Schedule Consultation</span>
+          <h3 style={{ fontSize: '1.25rem', marginBottom: '16px', color: 'var(--ink)' }}>Book an Appointment</h3>
 
           {bookingSuccess && (
             <div style={{
               background: 'var(--success-soft)',
-              border: '1px solid var(--success)',
+              border: '1px solid var(--success-line)',
               color: 'var(--success)',
               padding: '10px 14px',
-              borderRadius: '8px',
-              marginBottom: '14px',
+              borderRadius: '10px',
+              marginBottom: '16px',
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
+              fontSize: '0.88rem',
             }}>
               <CheckCircle size={18} />
               <span>{bookingSuccess}</span>
@@ -177,14 +180,15 @@ export default function PatientDashboard() {
           {bookingError && (
             <div style={{
               background: 'var(--danger-soft)',
-              border: '1px solid var(--danger)',
+              border: '1px solid var(--danger-line)',
               color: 'var(--danger)',
               padding: '10px 14px',
-              borderRadius: '8px',
-              marginBottom: '14px',
+              borderRadius: '10px',
+              marginBottom: '16px',
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
+              fontSize: '0.88rem',
             }}>
               <XCircle size={18} />
               <span>{bookingError}</span>
@@ -247,11 +251,12 @@ export default function PatientDashboard() {
               <label className="form-label">Available Slots</label>
               {slots.length === 0 ? (
                 <div style={{
-                  padding: '12px',
-                  background: 'var(--bg)',
-                  borderRadius: '8px',
+                  padding: '14px',
+                  background: 'var(--wash)',
+                  border: '1px solid var(--line)',
+                  borderRadius: '10px',
                   color: 'var(--muted)',
-                  fontSize: '0.88rem',
+                  fontSize: '0.86rem',
                   textAlign: 'center',
                 }}>
                   No available slots on this date (Closed, Surgery, Off, or Fully Booked).
@@ -277,7 +282,7 @@ export default function PatientDashboard() {
                 <label className="form-label">
                   Reason for Visit <span style={{ color: 'var(--danger)' }}>*</span>
                 </label>
-                <span style={{ fontSize: '0.78rem', color: reason.length > 300 ? 'var(--danger)' : 'var(--muted)' }}>
+                <span style={{ fontSize: '0.76rem', color: reason.length > 300 ? 'var(--danger)' : 'var(--muted)' }}>
                   {reason.length}/300
                 </span>
               </div>
@@ -303,84 +308,276 @@ export default function PatientDashboard() {
           </form>
         </div>
 
-        {/* My Appointments List */}
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <h3 style={{ fontSize: '1.3rem' }}>My Consultation History</h3>
-            <button className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '0.85rem' }} onClick={refreshAppointments}>
-              <RefreshCw size={14} /> Refresh
+        {/* My Appointments List / Medical Record */}
+        <div className="card" style={{ padding: '24px 28px' }}>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+            marginBottom: '20px',
+            paddingBottom: '16px',
+            borderBottom: '1px solid var(--line)',
+          }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                <span className="eyebrow" style={{ margin: 0 }}>Medical Record</span>
+                <span style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  padding: '2px 8px',
+                  borderRadius: '9999px',
+                  fontSize: '0.72rem',
+                  fontWeight: 600,
+                  background: 'var(--wash)',
+                  color: 'var(--muted)',
+                  border: '1px solid var(--line)',
+                }}>
+                  {appointments.length} {appointments.length === 1 ? 'Record' : 'Records'}
+                </span>
+              </div>
+              <h3 style={{ fontSize: '1.28rem', margin: 0, fontWeight: 800, color: 'var(--ink)', letterSpacing: '-0.02em' }}>
+                My Consultation History
+              </h3>
+            </div>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              style={{ padding: '7px 12px', fontSize: '0.82rem', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+              onClick={refreshAppointments}
+            >
+              <RefreshCw size={13} /> Refresh
             </button>
           </div>
 
           {loading ? (
-            <p style={{ color: 'var(--muted)' }}>Loading appointments...</p>
+            <p style={{ color: 'var(--muted)', fontSize: '0.9rem', textAlign: 'center', padding: '24px 0' }}>
+              Loading clinical records...
+            </p>
           ) : appointments.length === 0 ? (
-            <p style={{ color: 'var(--muted)' }}>No appointments found. Book your first consultation on the left.</p>
+            <div style={{
+              padding: '36px 20px',
+              textAlign: 'center',
+              background: 'var(--wash)',
+              borderRadius: '12px',
+              border: '1px dashed var(--line)',
+            }}>
+              <div style={{
+                width: '42px',
+                height: '42px',
+                borderRadius: '10px',
+                background: 'var(--paper)',
+                border: '1px solid var(--line)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: '10px',
+                color: 'var(--muted)',
+              }}>
+                <ClipboardList size={20} />
+              </div>
+              <h4 style={{ fontSize: '0.98rem', fontWeight: 600, color: 'var(--ink)', marginBottom: '4px' }}>
+                No Consultations on File
+              </h4>
+              <p style={{ color: 'var(--muted)', fontSize: '0.86rem', maxWidth: '300px', margin: '0 auto' }}>
+                Your completed visits, diagnoses, and doctor prescriptions will appear here.
+              </p>
+            </div>
           ) : (
-            <div style={{ display: 'grid', gap: '12px' }}>
+            <div style={{ display: 'grid', gap: '16px' }}>
               {appointments.map((a) => (
                 <div
                   key={a.id}
                   style={{
                     border: '1px solid var(--line)',
-                    borderRadius: '10px',
-                    padding: '16px',
-                    background: a.status === 'booked' ? '#ffffff' : 'var(--bg)',
+                    borderRadius: '14px',
+                    padding: '20px',
+                    background: 'var(--paper)',
+                    boxShadow: 'var(--card-shadow)',
                     display: 'grid',
-                    gap: '8px',
+                    gap: '14px',
+                    transition: 'all 0.15s ease',
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <div>
-                      <span className="mono" style={{ fontSize: '0.85rem', color: 'var(--muted)' }}>{a.id}</span>
-                      <h4 style={{ fontSize: '1.1rem', marginTop: '2px' }}>{a.doctor_name}</h4>
-                      <p style={{ fontSize: '0.88rem', color: 'var(--accent)', fontWeight: 600 }}>
-                        {a.speciality} · {a.visit_type === 'new' ? 'New Visit (20m)' : 'Follow-up (10m)'}
-                      </p>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
-                      <span className={`badge badge-${a.status}`}>
-                        {a.status.replace('_', ' ')}
+                  {/* Top Meta Bar: Record ID + Origin & Status Badge */}
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    paddingBottom: '10px',
+                    borderBottom: '1px solid var(--line)',
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{
+                        fontFamily: 'monospace',
+                        fontSize: '0.76rem',
+                        padding: '2px 8px',
+                        borderRadius: '6px',
+                        background: 'var(--wash)',
+                        border: '1px solid var(--line)',
+                        color: 'var(--muted)',
+                        fontWeight: 600,
+                        letterSpacing: '0.03em',
+                      }}>
+                        #{a.id}
                       </span>
                       {a.source && (
-                        <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>
+                        <span style={{ fontSize: '0.74rem', color: 'var(--muted)' }}>
                           Booked via {a.source}
                         </span>
                       )}
                     </div>
+                    <span
+                      className={`badge badge-${a.status}`}
+                      style={{
+                        textTransform: 'capitalize',
+                        fontSize: '0.74rem',
+                        padding: '3px 10px',
+                        fontWeight: 600,
+                      }}
+                    >
+                      {a.status === 'completed' && (
+                        <CheckCircle2 size={12} style={{ marginRight: '4px', verticalAlign: '-1px' }} />
+                      )}
+                      {a.status.replace('_', ' ')}
+                    </span>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '0.9rem', color: 'var(--muted)' }}>
-                    <span>📅 {a.date}</span>
-                    <span>⏰ {a.start_time} – {a.end_time}</span>
-                  </div>
-
-                  {a.reason && (
-                    <p style={{ fontSize: '0.88rem', color: 'var(--ink)' }}>
-                      <b>Reported symptoms:</b> {a.reason}
-                    </p>
-                  )}
-
-                  {a.doctor_note && (
+                  {/* Doctor Profile Row */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <div style={{
-                      background: 'var(--accent-soft)',
-                      borderLeft: '3px solid var(--accent)',
-                      padding: '8px 12px',
-                      borderRadius: '4px',
-                      fontSize: '0.85rem',
+                      width: '42px',
+                      height: '42px',
+                      borderRadius: '10px',
+                      background: 'var(--wash)',
+                      border: '1px solid var(--line)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                      color: 'var(--orangeDark)',
                     }}>
-                      <b>Doctor's Clinical Notes:</b> {a.doctor_note}
+                      <Stethoscope size={20} />
+                    </div>
+                    <div>
+                      <h4 style={{ fontSize: '1.08rem', fontWeight: 700, margin: 0, color: 'var(--ink)' }}>
+                        {a.doctor_name}
+                      </h4>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.84rem', marginTop: '2px' }}>
+                        <span style={{ fontWeight: 600, color: 'var(--slate2)' }}>{a.speciality}</span>
+                        <span style={{ color: 'var(--muted)' }}>·</span>
+                        <span style={{ color: 'var(--muted)' }}>
+                          {a.visit_type === 'new' ? 'New Consultation (20m)' : 'Follow-up (10m)'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Clean Schedule Strip (No Emojis) */}
+                  <div style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    alignItems: 'center',
+                    gap: '16px',
+                    padding: '9px 14px',
+                    background: 'var(--wash)',
+                    borderRadius: '9px',
+                    border: '1px solid var(--line)',
+                    fontSize: '0.84rem',
+                  }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: 'var(--ink)', fontWeight: 600 }}>
+                      <Calendar size={14} color="var(--muted)" />
+                      <span>{a.date}</span>
+                    </div>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: 'var(--slate2)', fontWeight: 500 }}>
+                      <Clock size={14} color="var(--muted)" />
+                      <span>{a.start_time} – {a.end_time}</span>
+                    </div>
+                  </div>
+
+                  {/* Reported Symptoms */}
+                  {a.reason && (
+                    <div style={{
+                      padding: '10px 14px',
+                      background: 'var(--paper)',
+                      borderRadius: '8px',
+                      border: '1px solid var(--line)',
+                    }}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        fontSize: '0.72rem',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.08em',
+                        color: 'var(--muted)',
+                        marginBottom: '4px',
+                      }}>
+                        <Activity size={12} color="var(--muted)" /> Reported Symptoms
+                      </div>
+                      <p style={{ fontSize: '0.88rem', color: 'var(--slate2)', margin: 0, lineHeight: 1.45 }}>
+                        {a.reason}
+                      </p>
                     </div>
                   )}
 
+                  {/* Doctor's Clinical Assessment & Advice */}
+                  {a.doctor_note && (
+                    <div style={{
+                      background: 'var(--paper)',
+                      border: '1px solid var(--line)',
+                      borderLeft: '3px solid var(--orange)',
+                      borderRadius: '8px',
+                      padding: '12px 14px',
+                      boxShadow: '0 1px 3px rgba(15, 23, 42, 0.03)',
+                    }}>
+                      <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: '6px',
+                      }}>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          fontSize: '0.72rem',
+                          fontWeight: 700,
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.08em',
+                          color: 'var(--orangeDark)',
+                        }}>
+                          <FileText size={12} /> Clinical Assessment & Notes
+                        </div>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--muted)' }}>
+                          Prescribed by {a.doctor_name}
+                        </span>
+                      </div>
+                      <p style={{
+                        fontSize: '0.88rem',
+                        lineHeight: 1.55,
+                        color: 'var(--ink)',
+                        margin: 0,
+                        fontWeight: 500,
+                      }}>
+                        {a.doctor_note}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Cancel Action (if booked) */}
                   {a.status === 'booked' && (
-                    <div style={{ display: 'flex', gap: '8px', marginTop: '6px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '6px' }}>
                       <button
+                        type="button"
                         className="btn btn-danger"
-                        style={{ padding: '4px 10px', fontSize: '0.85rem' }}
+                        style={{
+                          padding: '6px 14px',
+                          fontSize: '0.80rem',
+                        }}
                         onClick={() => handleCancel(a.id)}
                       >
-                        Cancel Appointment
+                        Cancel Consultation
                       </button>
                     </div>
                   )}
@@ -393,4 +590,3 @@ export default function PatientDashboard() {
     </div>
   );
 }
-

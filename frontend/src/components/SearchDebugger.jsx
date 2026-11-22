@@ -34,14 +34,15 @@ export default function SearchDebugger() {
   return (
     <div className="card" style={{ display: 'grid', gap: '16px' }}>
       <div>
-        <h3 style={{ margin: 0, fontSize: '1.15rem' }}>RAG Search Debugger (BM25 vs Vector vs Hybrid)</h3>
+        <span className="eyebrow">RAG Search Inspector</span>
+        <h3 style={{ margin: '2px 0 6px 0', fontSize: '1.25rem' }}>BM25 vs Vector vs 50/50 Hybrid Ranking</h3>
         <p style={{ margin: 0, color: 'var(--muted)', fontSize: '0.88rem' }}>
-          Inspect internal ranking from BM25 keyword search, Dense Vector search, and the 50/50 Hybrid retriever.
+          Inspect internal ranking from BM25 keyword search, Dense Vector search, and the unified Hybrid retriever.
         </p>
       </div>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-        <span style={{ fontSize: '0.82rem', color: 'var(--muted)', alignSelf: 'center' }}>Test benchmarks:</span>
+        <span style={{ fontSize: '0.82rem', color: 'var(--muted)', alignSelf: 'center', fontWeight: 600 }}>Benchmarks:</span>
         {testQueries.map((tq, i) => (
           <button
             key={i}
@@ -50,7 +51,7 @@ export default function SearchDebugger() {
               handleSearch(tq);
             }}
             className="btn btn-secondary"
-            style={{ fontSize: '0.78rem', padding: '4px 10px' }}
+            style={{ fontSize: '0.78rem', padding: '5px 11px' }}
           >
             {tq}
           </button>
@@ -60,8 +61,8 @@ export default function SearchDebugger() {
       <div style={{ display: 'flex', gap: '8px' }}>
         <input
           type="text"
-          className="input"
-          placeholder="Type any search query to inspect retrieval scores..."
+          className="form-control"
+          placeholder="Type any query to inspect retrieval scores..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -78,37 +79,37 @@ export default function SearchDebugger() {
       </div>
 
       {error && (
-        <div style={{ background: 'var(--danger-soft)', color: 'var(--danger)', padding: '10px 14px', borderRadius: '8px', fontSize: '0.88rem' }}>
+        <div style={{ background: 'var(--danger-soft)', color: 'var(--danger)', border: '1px solid var(--danger-line)', padding: '10px 14px', borderRadius: '10px', fontSize: '0.88rem' }}>
           {error}
         </div>
       )}
 
       {loading && (
-        <div style={{ padding: '20px', textAlign: 'center', color: 'var(--muted)' }}>
-          Computing BM25 tokens and vector similarities...
+        <div style={{ padding: '24px', textAlign: 'center', color: 'var(--muted)', fontSize: '0.9rem' }}>
+          Computing BM25 tokens and dense vector similarities...
         </div>
       )}
 
       {results && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginTop: '8px' }}>
           {/* Keyword Column */}
-          <div style={{ background: 'var(--bg)', border: '1px solid var(--line)', borderRadius: '10px', padding: '14px', display: 'grid', gap: '10px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 700, color: 'var(--ink)' }}>
-              <Layers size={16} color="var(--accent)" /> Keyword Only (BM25)
+          <div style={{ background: 'var(--wash)', border: '1px solid var(--line)', borderRadius: '12px', padding: '16px', display: 'grid', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 700, color: 'var(--ink)', fontSize: '0.92rem' }}>
+              <Layers size={16} color="var(--orange)" /> Keyword Only (BM25)
             </div>
             <div style={{ display: 'grid', gap: '8px' }}>
               {results.keyword.map((item, idx) => (
-                <div key={idx} style={{ background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: '6px', padding: '10px', fontSize: '0.85rem' }}>
+                <div key={idx} style={{ background: 'var(--paper)', border: '1px solid var(--line)', borderRadius: '8px', padding: '10px', fontSize: '0.85rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-                    <b style={{ color: 'var(--accent)' }}>#{idx + 1} {item.section}</b>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', background: 'var(--accent-soft)', padding: '2px 6px', borderRadius: '4px' }}>
+                    <b style={{ color: 'var(--orangeDark)', fontWeight: 700 }}>#{idx + 1} {item.section}</b>
+                    <span className="mono" style={{ fontSize: '0.74rem' }}>
                       BM25: {item.score}
                     </span>
                   </div>
                   <div style={{ fontSize: '0.75rem', color: 'var(--muted)', marginBottom: '4px' }}>
-                    {item.source} · <code style={{ fontSize: '0.72rem' }}>{item.chunk_id}</code>
+                    {item.source} · <code>{item.chunk_id}</code>
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--ink)', lineHeight: '1.4' }}>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--slate2)', lineHeight: '1.45' }}>
                     {item.snippet}
                   </div>
                 </div>
@@ -117,23 +118,23 @@ export default function SearchDebugger() {
           </div>
 
           {/* Vector Column */}
-          <div style={{ background: 'var(--bg)', border: '1px solid var(--line)', borderRadius: '10px', padding: '14px', display: 'grid', gap: '10px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 700, color: 'var(--ink)' }}>
-              <Database size={16} color="#7a4a12" /> Vector Only (Cosine Sim)
+          <div style={{ background: 'var(--wash)', border: '1px solid var(--line)', borderRadius: '12px', padding: '16px', display: 'grid', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 700, color: 'var(--ink)', fontSize: '0.92rem' }}>
+              <Database size={16} color="var(--orange)" /> Vector Only (Cosine Sim)
             </div>
             <div style={{ display: 'grid', gap: '8px' }}>
               {results.vector.map((item, idx) => (
-                <div key={idx} style={{ background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: '6px', padding: '10px', fontSize: '0.85rem' }}>
+                <div key={idx} style={{ background: 'var(--paper)', border: '1px solid var(--line)', borderRadius: '8px', padding: '10px', fontSize: '0.85rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-                    <b style={{ color: '#7a4a12' }}>#{idx + 1} {item.section}</b>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', background: 'var(--surgery)', color: 'var(--surgery-ink)', padding: '2px 6px', borderRadius: '4px' }}>
+                    <b style={{ color: 'var(--ink)', fontWeight: 700 }}>#{idx + 1} {item.section}</b>
+                    <span className="mono" style={{ fontSize: '0.74rem' }}>
                       Sim: {item.score}
                     </span>
                   </div>
                   <div style={{ fontSize: '0.75rem', color: 'var(--muted)', marginBottom: '4px' }}>
-                    {item.source} · <code style={{ fontSize: '0.72rem' }}>{item.chunk_id}</code>
+                    {item.source} · <code>{item.chunk_id}</code>
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--ink)', lineHeight: '1.4' }}>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--slate2)', lineHeight: '1.45' }}>
                     {item.snippet}
                   </div>
                 </div>
@@ -142,23 +143,23 @@ export default function SearchDebugger() {
           </div>
 
           {/* Hybrid Column */}
-          <div style={{ background: 'var(--accent-soft)', border: '2px solid var(--accent)', borderRadius: '10px', padding: '14px', display: 'grid', gap: '10px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 700, color: 'var(--accent)' }}>
+          <div style={{ background: 'var(--orangeWash)', border: '1px solid var(--orangeLine)', borderRadius: '12px', padding: '16px', display: 'grid', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 700, color: 'var(--orangeDark)', fontSize: '0.92rem' }}>
               <CheckCircle2 size={16} /> Hybrid (Chat Retriever Top 4)
             </div>
             <div style={{ display: 'grid', gap: '8px' }}>
               {results.hybrid.map((item, idx) => (
-                <div key={idx} style={{ background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: '6px', padding: '10px', fontSize: '0.85rem' }}>
+                <div key={idx} style={{ background: 'var(--paper)', border: '1px solid var(--line)', borderRadius: '8px', padding: '10px', fontSize: '0.85rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-                    <b style={{ color: 'var(--accent)' }}>#{idx + 1} {item.section}</b>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', background: 'var(--accent)', color: '#fff', padding: '2px 6px', borderRadius: '4px' }}>
+                    <b style={{ color: 'var(--orangeDark)', fontWeight: 700 }}>#{idx + 1} {item.section}</b>
+                    <span className="badge" style={{ fontSize: '0.72rem', padding: '2px 8px' }}>
                       Hybrid: {item.score}
                     </span>
                   </div>
                   <div style={{ fontSize: '0.75rem', color: 'var(--muted)', marginBottom: '4px' }}>
-                    {item.source} · <code style={{ fontSize: '0.72rem' }}>{item.chunk_id}</code>
+                    {item.source} · <code>{item.chunk_id}</code>
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--ink)', lineHeight: '1.4' }}>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--slate2)', lineHeight: '1.45' }}>
                     {item.snippet}
                   </div>
                 </div>
@@ -170,4 +171,3 @@ export default function SearchDebugger() {
     </div>
   );
 }
-

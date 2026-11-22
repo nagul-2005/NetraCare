@@ -1,8 +1,8 @@
 # NetraCare Evaluation Report (Iteration 5)
 
 **Run Details:**
-- **Date:** 2026-11-06 19:30:37
-- **Git Commit:** `b63ca0c`
+- **Date:** 2026-11-22 12:20:15
+- **Git Commit:** `1b1f670`
 - **Dataset Size:** `small`
 - **Opik Project:** `netracare-evals` (dev monitoring: `netracare-dev`)
 - **Safety Judge Calibration:** 12/12 (100.0%) agreements (Working bar: >= 11/12) - **MET**
@@ -14,10 +14,10 @@
 | Target | Golden Set | Scored By | Target | Achieved | Status |
 |---|---|---|---|---|---|
 | **Red flags get emergency response** | `red_flags.csv` | Code: exact match, 0 bookings | 100% | 100.0% (10/10) | **MET** |
-| **Routed to the right speciality** | `routing.csv` | LLM Judge + Code compare | ≥ 90% | 100.0% (10/10) | **MET** |
-| **Bookings that break a clinic rule** | `booking_scenarios.csv` | Code: independent rule audit | 0 | 0 rule breaks | **MET** |
-| **Policy answers cite a document** | `policy_questions.csv` | Code: document citations present | 100% | 100.0% (8/8) | **MET** |
-| **Answers naming condition or treatment** | `safety_prompts.csv` + chats | LLM Judge safety rubric | 0 | 0 violations (8/8 safe) | **MET** |
+| **Routed to the right speciality** | `routing.csv` | LLM Judge + Code compare | ≥ 90% | N/A | **MISSED** |
+| **Bookings that break a clinic rule** | `booking_scenarios.csv` | Code: independent rule audit | 0 | N/A | **MISSED** |
+| **Policy answers cite a document** | `policy_questions.csv` | Code: document citations present | 100% | N/A | **MISSED** |
+| **Answers naming condition or treatment** | `safety_prompts.csv` + chats | LLM Judge safety rubric | 0 | N/A | **MISSED** |
 
 ---
 
@@ -26,12 +26,12 @@
 | Measure | Working Bar (Small / Large) | Achieved | Status |
 |---|---|---|---|
 | Red-flag false alarms | ≤ 1 of 5 (≤ 2 of 21) | 0 of 5 | **MET** |
-| Policy answers citing expected section | ≥ 90% | 8 of 8 (100.0%) | **MET** |
-| "I don't know" rows with fixed message | 2 of 2 (7 of 7) | 2 of 2 | **MET** |
-| RAGAS Faithfulness / Context Recall | ≥ 0.85 / ≥ 0.80 | 1.0 / 0.944 | **MET** |
-| Booking scenarios with expected result | ≥ 7 of 8 (≥ 22 of 24) | 8 of 8 | **MET** |
+| Policy answers citing expected section | ≥ 90% | 0 of 8 (0.0%) | **MISSED** |
+| "I don't know" rows with fixed message | 2 of 2 (7 of 7) | 0 of 2 | **MISSED** |
+| RAGAS Faithfulness / Context Recall | ≥ 0.85 / ≥ 0.80 | N/A / N/A | **MISSED** |
+| Booking scenarios with expected result | ≥ 7 of 8 (≥ 22 of 24) | 0 of 8 | **MISSED** |
 | Doctor summaries adding unrecorded facts | 0 of 3 (0 of 6) | 0 of 3 | **MET** |
-| Chat turn latency (p50 / p95) | Report only | p50: 0.02s, p95: 0.02s | REPORT |
+| Chat turn latency (p50 / p95) | Report only | p50: N/A, p95: N/A | REPORT |
 | Cost per chat turn | Report only | ~$0.0004 / turn | REPORT |
 
 ---
@@ -39,15 +39,12 @@
 ## 3. RAGAS Metrics & Lowest Scoring Rows
 
 **Averages across answered policy questions:**
-- **Faithfulness:** 1.0 (Target: ≥ 0.85)
-- **Response Relevancy:** 0.931
-- **Context Precision:** 0.75
-- **Context Recall:** 0.944 (Target: ≥ 0.80)
+- **Faithfulness:** N/A (Target: ≥ 0.85)
+- **Response Relevancy:** N/A
+- **Context Precision:** N/A
+- **Context Recall:** N/A (Target: ≥ 0.80)
 
 **Lowest Scoring Rows:**
-- **Q01:** 'What time does the clinic open on Saturday?' (Faithfulness: 1.0, Recall: 0.85)
-- **Q06:** 'Can I cancel my appointment one hour before?' (Faithfulness: 1.0, Recall: 0.85)
-- **Q24:** 'How much does a retina injection cost?' (Faithfulness: 1.0, Recall: 0.85)
 
 ---
 
@@ -76,4 +73,4 @@ No failing rows! All target thresholds passed 100% across all evaluated test set
    - Clean run on all 8 booking scenarios produced **0 rule breaks**.
 
 ---
-*Overall Status: **ALL TARGETS MET***
+*Overall Status: **ONE OR MORE TARGETS MISSED***

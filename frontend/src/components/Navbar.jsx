@@ -21,39 +21,40 @@ export default function Navbar({ currentTab, setCurrentTab }) {
   return (
     <header className="nav-pill-wrapper">
       <nav className="nav-pill-bar" aria-label="NetraCare Navigation">
-        {/* Brand & New NetraCare Ophthalmic Logo */}
+        {/* Brand & YC-Classic NetraCare Logo */}
         <div
           style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
           onClick={() => handleNav('home')}
         >
-          <NetraCareLogo size={36} />
+          <NetraCareLogo size={32} />
 
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
             <span
               style={{
-                fontSize: '1.25rem',
-                fontWeight: 600,
+                fontSize: '1.28rem',
+                fontWeight: 900,
                 color: 'var(--ink)',
-                letterSpacing: '-0.025em',
+                letterSpacing: '-0.045em',
                 fontFamily: 'var(--font-display)',
               }}
             >
               NetraCare
             </span>
             <span
-              className="cursive"
               style={{
-                fontSize: '18px',
+                fontSize: '0.72rem',
+                fontWeight: 600,
                 color: 'var(--muted)',
-                transform: 'rotate(-2deg)',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
               }}
             >
-              eye clinic
+              Clinic
             </span>
           </div>
         </div>
 
-        {/* Desktop Links (Glassy Pill Buttons) */}
+        {/* Desktop Links (YC Clean Text Buttons) */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }} className="hide-on-mobile">
           <button
             className={`nav-link-btn ${currentTab === 'home' ? 'active' : ''}`}
@@ -111,11 +112,11 @@ export default function Navbar({ currentTab, setCurrentTab }) {
           )}
         </div>
 
-        {/* Right Action: Dark Stone #292524 CTA Button or Authenticated User Pill */}
+        {/* Right Action: Orange Button or User Chip */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {user ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span className="badge badge-opd" style={{ textTransform: 'capitalize' }}>
+              <span className="badge" style={{ textTransform: 'capitalize' }}>
                 {user.role === 'patient' && <User size={13} style={{ marginRight: '4px' }} />}
                 {user.role === 'doctor' && <Stethoscope size={13} style={{ marginRight: '4px' }} />}
                 {['staff', 'admin', 'sub_admin'].includes(user.role) && <ShieldCheck size={13} style={{ marginRight: '4px' }} />}
@@ -123,7 +124,7 @@ export default function Navbar({ currentTab, setCurrentTab }) {
               </span>
               <button
                 className="btn btn-secondary"
-                style={{ padding: '6px 14px', fontSize: '0.82rem' }}
+                style={{ padding: '6px 12px', fontSize: '0.82rem' }}
                 onClick={() => {
                   logout();
                   setCurrentTab('home');
@@ -134,11 +135,11 @@ export default function Navbar({ currentTab, setCurrentTab }) {
             </div>
           ) : (
             <button
-              className="btn btn-dark"
+              className="btn btn-primary"
               style={{
-                padding: '9px 20px',
+                padding: '9px 18px',
                 fontSize: '14px',
-                fontWeight: 500,
+                fontWeight: 600,
               }}
               onClick={() => setCurrentTab('login')}
             >
@@ -150,9 +151,9 @@ export default function Navbar({ currentTab, setCurrentTab }) {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             style={{
-              background: 'rgba(255, 255, 255, 0.7)',
+              background: 'var(--paper)',
               border: '1px solid var(--line)',
-              borderRadius: '50%',
+              borderRadius: '8px',
               width: '36px',
               height: '36px',
               cursor: 'pointer',
@@ -163,58 +164,54 @@ export default function Navbar({ currentTab, setCurrentTab }) {
             className="mobile-nav-toggle"
             aria-label="Toggle navigation menu"
           >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
       </nav>
 
-      {/* Mobile Drawer Menu with Liquid Glass Styling */}
+      {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div
           style={{
             position: 'absolute',
-            top: 'calc(100% + 8px)',
-            width: 'calc(100% - 32px)',
-            maxWidth: '480px',
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(253, 252, 248, 0.90) 100%)',
-            backdropFilter: 'blur(28px) saturate(180%)',
-            WebkitBackdropFilter: 'blur(28px) saturate(180%)',
-            borderRadius: '24px',
-            border: '1px solid rgba(255, 255, 255, 0.95)',
-            outline: '1px solid rgba(231, 229, 228, 0.6)',
-            padding: '20px',
-            boxShadow: '0 20px 48px -8px rgba(41, 37, 36, 0.12)',
+            top: '68px',
+            left: '16px',
+            right: '16px',
+            background: 'var(--paper)',
+            borderRadius: '14px',
+            border: '1px solid var(--line)',
+            padding: '16px',
+            boxShadow: 'var(--browser-shadow)',
             display: 'flex',
             flexDirection: 'column',
             gap: '8px',
-            zIndex: 110,
-            pointerEvents: 'auto',
+            zIndex: 1100,
           }}
         >
           <button
             className="btn btn-secondary"
-            style={{ justifyContent: 'flex-start', padding: '12px 18px', fontSize: '15px' }}
+            style={{ justifyContent: 'flex-start', padding: '10px 14px', fontSize: '14px' }}
             onClick={() => handleNav('home')}
           >
             Clinic Info
           </button>
           <button
             className="btn btn-secondary"
-            style={{ justifyContent: 'flex-start', padding: '12px 18px', fontSize: '15px' }}
+            style={{ justifyContent: 'flex-start', padding: '10px 14px', fontSize: '14px' }}
             onClick={() => handleNav('home', 'doctors')}
           >
             Our Specialists
           </button>
           <button
             className="btn btn-secondary"
-            style={{ justifyContent: 'flex-start', padding: '12px 18px', fontSize: '15px' }}
+            style={{ justifyContent: 'flex-start', padding: '10px 14px', fontSize: '14px' }}
             onClick={() => handleNav('home', 'schedule')}
           >
             Weekly OPD Grid
           </button>
           <button
             className="btn btn-secondary"
-            style={{ justifyContent: 'flex-start', padding: '12px 18px', fontSize: '15px' }}
+            style={{ justifyContent: 'flex-start', padding: '10px 14px', fontSize: '14px' }}
             onClick={() => handleNav('home', 'faq')}
           >
             FAQ
@@ -223,7 +220,7 @@ export default function Navbar({ currentTab, setCurrentTab }) {
           {user?.role === 'patient' && (
             <button
               className="btn btn-primary"
-              style={{ justifyContent: 'flex-start', padding: '12px 18px', fontSize: '15px' }}
+              style={{ justifyContent: 'flex-start', padding: '10px 14px', fontSize: '14px' }}
               onClick={() => handleNav('patient')}
             >
               My Appointments
@@ -233,7 +230,7 @@ export default function Navbar({ currentTab, setCurrentTab }) {
           {user?.role === 'doctor' && (
             <button
               className="btn btn-primary"
-              style={{ justifyContent: 'flex-start', padding: '12px 18px', fontSize: '15px' }}
+              style={{ justifyContent: 'flex-start', padding: '10px 14px', fontSize: '14px' }}
               onClick={() => handleNav('doctor')}
             >
               Doctor Schedule
@@ -243,7 +240,7 @@ export default function Navbar({ currentTab, setCurrentTab }) {
           {['staff', 'admin', 'sub_admin'].includes(user?.role) && (
             <button
               className="btn btn-primary"
-              style={{ justifyContent: 'flex-start', padding: '12px 18px', fontSize: '15px' }}
+              style={{ justifyContent: 'flex-start', padding: '10px 14px', fontSize: '14px' }}
               onClick={() => handleNav('staff')}
             >
               Staff Dashboard

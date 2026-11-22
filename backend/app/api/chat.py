@@ -54,7 +54,7 @@ def patient_chat_endpoint(
             "thread_id": thread_id,
             "patient_id": patient.id,
         },
-        "recursion_limit": 15,
+        "recursion_limit": 5,
     }
     if tracer is not None:
         config["callbacks"] = [tracer]

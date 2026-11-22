@@ -39,10 +39,11 @@ def get_llm(temperature: float = 0.0):
     try:
         from langchain_google_genai import ChatGoogleGenerativeAI
         return ChatGoogleGenerativeAI(
-            model="gemini-2.5-flash",
+            model="gemini-3.5-flash",
             google_api_key=api_key,
             temperature=temperature,
             timeout=10,
+            max_retries=1,
         )
     except Exception:
         return None

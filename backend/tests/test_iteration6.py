@@ -189,8 +189,21 @@ def test_mcp_scenarios_m01_to_m12():
     finally:
         db.close()
 
-def test_lab_questions_lq01_to_lq09():
+def test_lab_questions_lq01_to_lq09(monkeypatch):
     """Verify all 9 questions from lab_questions.csv in the patient chat."""
+    import sys
+    from pathlib import Path
+    lab_dir = str(Path("partner-lab").resolve())
+    if lab_dir not in sys.path:
+        sys.path.insert(0, lab_dir)
+    import citycare_lab_mcp
+    import app.agent.lab_tool as lab_tool_mod
+
+    async def _mock_fetch(test: str = ""):
+        return citycare_lab_mcp.get_lab_test_info(test)
+
+    monkeypatch.setattr(lab_tool_mod, "_fetch_lab_test_info_async", _mock_fetch)
+
     token = get_patient_token("P01")
 
     # LQ01: HbA1c fasting

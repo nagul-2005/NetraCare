@@ -3,15 +3,6 @@ import { useAuth } from '../context/AuthContext';
 import NetraCareLogo from '../components/NetraCareLogo';
 import { User, Stethoscope, ShieldCheck, ArrowRight, AlertCircle } from 'lucide-react';
 
-const DEMO_PATIENTS = [
-  { id: 'P01', name: 'Asha Verma', mobile: '9000000001', note: 'Cataract & Retina history' },
-  { id: 'P02', name: 'Rohan Gupta', mobile: '9000000002', note: 'General eye health' },
-  { id: 'P03', name: 'Lakshmi Nair', mobile: '9000000003', note: 'Glaucoma history' },
-  { id: 'P04', name: 'Imran Sheikh', mobile: '9000000004', note: 'Dry eye care' },
-  { id: 'P13', name: 'Fatima Begum', mobile: '9000000013', note: 'Retina history' },
-  { id: 'P18', name: 'Harish Chandra', mobile: '9000000018', note: 'Cataract follow-up' },
-];
-
 const DOCTORS = [
   { id: 'D1', name: 'Dr. Anand Rao', spec: 'Cataract, General' },
   { id: 'D2', name: 'Dr. Meera Iyer', spec: 'Glaucoma, Cataract' },
@@ -56,20 +47,19 @@ export default function Login({ onLoginSuccess }) {
     }
   };
 
-  const handlePickDemoPatient = (p) => {
-    setMobile(p.mobile);
-    setName(p.name);
-    setError(null);
-  };
-
   return (
-    <div className="container" style={{ maxWidth: '560px', marginTop: '16px' }}>
-      <div className="card" style={{ padding: '36px 32px', textAlign: 'center' }}>
-        <div style={{ display: 'inline-flex', marginBottom: '16px' }}>
-          <NetraCareLogo size={48} />
+    <div className="container" style={{ maxWidth: '480px', marginTop: '36px', marginBottom: '36px' }}>
+      <div className="card" style={{ padding: '38px 32px', textAlign: 'center', boxShadow: 'var(--browser-shadow)' }}>
+        {/* Logo and Eyebrow properly stacked */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '14px' }}>
+          <NetraCareLogo size={44} />
+          <span className="eyebrow" style={{ marginTop: '12px', marginBottom: '0' }}>Role Verification</span>
         </div>
-        <h2 style={{ fontSize: '1.8rem', textAlign: 'center', marginBottom: '8px' }}>Sign In to NetraCare</h2>
-        <p style={{ textAlign: 'center', color: 'var(--muted)', fontSize: '0.95rem', marginBottom: '24px' }}>
+
+        <h2 style={{ fontSize: '1.75rem', textAlign: 'center', marginBottom: '6px', color: 'var(--ink)' }}>
+          Sign In to NetraCare
+        </h2>
+        <p style={{ textAlign: 'center', color: 'var(--muted)', fontSize: '0.92rem', marginBottom: '24px' }}>
           Select your portal role to access your schedule and care appointments.
         </p>
 
@@ -77,72 +67,86 @@ export default function Login({ onLoginSuccess }) {
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr 1fr',
-          gap: '8px',
-          background: 'var(--bg)',
-          padding: '6px',
-          borderRadius: '10px',
+          gap: '4px',
+          background: 'var(--wash)',
+          padding: '4px',
+          borderRadius: '11px',
+          border: '1px solid var(--line)',
           marginBottom: '24px',
         }}>
           <button
             type="button"
             className="btn"
             style={{
-              background: role === 'patient' ? '#fff' : 'transparent',
-              color: role === 'patient' ? 'var(--accent)' : 'var(--muted)',
-              border: role === 'patient' ? '1px solid var(--line)' : 'none',
-              boxShadow: role === 'patient' ? '0 1px 3px rgba(0,0,0,0.05)' : 'none',
+              background: role === 'patient' ? 'var(--paper)' : 'transparent',
+              color: role === 'patient' ? 'var(--orangeDark)' : 'var(--muted)',
+              border: role === 'patient' ? '1px solid var(--orangeLine)' : '1px solid transparent',
+              boxShadow: role === 'patient' ? 'var(--card-shadow)' : 'none',
+              fontWeight: role === 'patient' ? 700 : 500,
+              borderRadius: '8px',
+              padding: '8px 10px',
+              fontSize: '0.86rem',
             }}
             onClick={() => { setRole('patient'); setError(null); }}
           >
-            <User size={16} /> Patient
+            <User size={15} /> Patient
           </button>
           <button
             type="button"
             className="btn"
             style={{
-              background: role === 'doctor' ? '#fff' : 'transparent',
-              color: role === 'doctor' ? 'var(--accent)' : 'var(--muted)',
-              border: role === 'doctor' ? '1px solid var(--line)' : 'none',
-              boxShadow: role === 'doctor' ? '0 1px 3px rgba(0,0,0,0.05)' : 'none',
+              background: role === 'doctor' ? 'var(--paper)' : 'transparent',
+              color: role === 'doctor' ? 'var(--orangeDark)' : 'var(--muted)',
+              border: role === 'doctor' ? '1px solid var(--orangeLine)' : '1px solid transparent',
+              boxShadow: role === 'doctor' ? 'var(--card-shadow)' : 'none',
+              fontWeight: role === 'doctor' ? 700 : 500,
+              borderRadius: '8px',
+              padding: '8px 10px',
+              fontSize: '0.86rem',
             }}
             onClick={() => { setRole('doctor'); setError(null); }}
           >
-            <Stethoscope size={16} /> Doctor
+            <Stethoscope size={15} /> Doctor
           </button>
           <button
             type="button"
             className="btn"
             style={{
-              background: role === 'staff' ? '#fff' : 'transparent',
-              color: role === 'staff' ? 'var(--accent)' : 'var(--muted)',
-              border: role === 'staff' ? '1px solid var(--line)' : 'none',
-              boxShadow: role === 'staff' ? '0 1px 3px rgba(0,0,0,0.05)' : 'none',
+              background: role === 'staff' ? 'var(--paper)' : 'transparent',
+              color: role === 'staff' ? 'var(--orangeDark)' : 'var(--muted)',
+              border: role === 'staff' ? '1px solid var(--orangeLine)' : '1px solid transparent',
+              boxShadow: role === 'staff' ? 'var(--card-shadow)' : 'none',
+              fontWeight: role === 'staff' ? 700 : 500,
+              borderRadius: '8px',
+              padding: '8px 10px',
+              fontSize: '0.86rem',
             }}
             onClick={() => { setRole('staff'); setError(null); }}
           >
-            <ShieldCheck size={16} /> Staff
+            <ShieldCheck size={15} /> Staff
           </button>
         </div>
 
         {error && (
           <div style={{
             background: 'var(--danger-soft)',
-            border: '1px solid var(--danger)',
+            border: '1px solid var(--danger-line)',
             color: 'var(--danger)',
-            borderRadius: '8px',
+            borderRadius: '10px',
             padding: '12px 14px',
-            marginBottom: '18px',
+            marginBottom: '20px',
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
-            fontSize: '0.9rem',
+            fontSize: '0.88rem',
+            textAlign: 'left',
           }}>
-            <AlertCircle size={18} />
+            <AlertCircle size={18} style={{ flexShrink: 0 }} />
             <span>{error}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{ textAlign: 'left' }}>
           {role === 'patient' && (
             <div>
               <div className="form-group">
@@ -157,7 +161,7 @@ export default function Login({ onLoginSuccess }) {
                 />
               </div>
 
-              <div className="form-group">
+              <div className="form-group" style={{ marginBottom: '24px' }}>
                 <label className="form-label">Full Name</label>
                 <input
                   type="text"
@@ -167,31 +171,6 @@ export default function Login({ onLoginSuccess }) {
                   onChange={(e) => setName(e.target.value)}
                   required
                 />
-              </div>
-
-              {/* Demo Patient Fast Picker */}
-              <div style={{ marginTop: '14px', marginBottom: '20px' }}>
-                <span style={{ fontSize: '0.8rem', color: 'var(--muted)', fontWeight: 600 }}>Quick pick demo patient:</span>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '6px' }}>
-                  {DEMO_PATIENTS.map((p) => (
-                    <button
-                      key={p.id}
-                      type="button"
-                      onClick={() => handlePickDemoPatient(p)}
-                      style={{
-                        fontSize: '0.8rem',
-                        border: '1px solid var(--line)',
-                        background: mobile === p.mobile ? 'var(--accent-soft)' : 'var(--bg)',
-                        color: mobile === p.mobile ? 'var(--accent)' : 'var(--ink)',
-                        padding: '4px 8px',
-                        borderRadius: '6px',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {p.name} ({p.id})
-                    </button>
-                  ))}
-                </div>
               </div>
             </div>
           )}
@@ -230,7 +209,7 @@ export default function Login({ onLoginSuccess }) {
           <button
             type="submit"
             className="btn btn-primary"
-            style={{ width: '100%', padding: '12px' }}
+            style={{ width: '100%', padding: '12px', fontSize: '0.96rem' }}
             disabled={submitting}
           >
             {submitting ? 'Authenticating...' : 'Sign In'} <ArrowRight size={16} />
@@ -240,4 +219,3 @@ export default function Login({ onLoginSuccess }) {
     </div>
   );
 }
-

@@ -12,6 +12,7 @@ import {
   Stethoscope,
   Sparkles,
   ArrowRight,
+  Check,
 } from 'lucide-react';
 
 const CLINICAL_SCENARIOS = [
@@ -104,204 +105,154 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
       className="container"
       style={{
         display: 'grid',
-        gap: '48px',
+        gap: '40px',
         position: 'relative',
         width: '100%',
-        maxWidth: '1040px',
+        maxWidth: '1180px',
         margin: '0 auto',
         boxSizing: 'border-box',
       }}
     >
       {/* =========================================================================
-          HERO SECTION (Center-aligned, 2 large blurred blobs, 72px Outfit headline)
+          HERO SECTION (YC-Classic SaaS: 56px Faint Grid, 900 Headline, Orange Swipe)
          ========================================================================= */}
       <section
-        className="card reveal-on-scroll"
+        className="card hero-grid-bg reveal-on-scroll"
         style={{
           position: 'relative',
-          padding: '64px 28px 56px 28px',
+          padding: '68px 32px 60px 32px',
           textAlign: 'center',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          minHeight: '440px',
+          borderRadius: 'var(--radius-panel)',
+          border: '1px solid var(--line)',
+          boxShadow: 'var(--browser-shadow)',
           width: '100%',
           boxSizing: 'border-box',
-          minWidth: 0,
         }}
       >
-        {/* Floating Blurred Ambient Blobs in 6s loop */}
-        <div
-          className="softly-blob softly-blob-peach"
-          style={{
-            top: '-80px',
-            left: 'calc(50% - 320px)',
-          }}
-          aria-hidden="true"
-        />
-        <div
-          className="softly-blob softly-blob-lavender"
-          style={{
-            top: '0px',
-            right: 'calc(50% - 340px)',
-          }}
-          aria-hidden="true"
-        />
-
-        {/* Content Container Centered */}
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: '780px', margin: '0 auto', width: '100%' }}>
-          {/* Hero Title Card Badge with NetraCare Logo */}
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: '820px', margin: '0 auto', width: '100%' }}>
+          {/* Eyebrow Chip */}
           <div
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '12px',
-              background: 'rgba(255, 255, 255, 0.92)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
+              gap: '10px',
+              background: 'var(--paper)',
               border: '1px solid var(--line)',
-              borderRadius: 'var(--radius-full)',
-              padding: '6px 20px 6px 8px',
+              borderRadius: '9999px',
+              padding: '6px 18px 6px 8px',
               marginBottom: '22px',
-              boxShadow: 'var(--shadow-glass)',
+              boxShadow: 'var(--card-shadow)',
             }}
           >
-            <NetraCareLogo size={36} />
-            <div style={{ textAlign: 'left', lineHeight: 1.2 }}>
-              <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--ink)', display: 'block' }}>
+            <NetraCareLogo size={28} />
+            <div style={{ textAlign: 'left', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--ink)' }}>
                 NetraCare Eye Clinic
               </span>
-              <span style={{ fontSize: '11px', color: 'var(--muted)', letterSpacing: '0.02em' }}>
+              <span style={{ color: 'var(--line)' }}>|</span>
+              <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: 500, letterSpacing: '0.04em' }}>
                 AI Front Desk & Clinical Care Coordination
               </span>
             </div>
           </div>
 
-          {/* 72px Outfit Headline with Reenie Beanie Cursive Accent */}
+          {/* 900 Inter Headline with Single Highlight Swipe on 'gentle precision' */}
           <h1
             style={{
-              fontSize: 'clamp(2.4rem, 6vw, 4.2rem)',
-              fontWeight: 600,
-              lineHeight: 1.12,
-              letterSpacing: '-0.025em',
-              marginBottom: '20px',
+              fontSize: 'clamp(2.4rem, 5.2vw, 4.2rem)',
+              fontWeight: 900,
+              lineHeight: 0.98,
+              letterSpacing: '-0.045em',
+              marginBottom: '22px',
               color: 'var(--ink)',
             }}
           >
             Ophthalmic care, guided with{' '}
-            <span
-              className="cursive"
-              style={{
-                fontSize: '1.25em',
-                color: '#342F2D',
-                padding: '0 4px',
-                position: 'relative',
-                display: 'inline-block',
-              }}
-            >
-              gentle
-              {/* Soft decorative underline */}
-              <svg
-                style={{
-                  position: 'absolute',
-                  bottom: '-4px',
-                  left: '4px',
-                  width: '100%',
-                  height: '10px',
-                  overflow: 'visible',
-                }}
-                viewBox="0 0 100 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M 2 8 C 30 2, 70 12, 98 4"
-                  stroke="var(--accent)"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span>{' '}
-            precision.
+            <span className="highlight-swipe">gentle precision</span>.
           </h1>
 
-          {/* Sub-headline max-width 500px Centered */}
+          {/* Sub-headline */}
           <p
             style={{
-              color: 'var(--muted)',
+              color: 'var(--slate2)',
               fontSize: '1.1rem',
               lineHeight: 1.6,
-              maxWidth: '520px',
+              maxWidth: '560px',
               margin: '0 auto 32px auto',
+              fontWeight: 400,
             }}
           >
             Expert ophthalmic consultations across 5 superspecialists. Zero double-booking, guaranteed emergency triage, and seamless appointment coordination.
           </p>
 
-          {/* Dual CTA Buttons Centered */}
+          {/* Dual Action Buttons */}
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '16px',
+              gap: '14px',
               flexWrap: 'wrap',
-              marginBottom: '32px',
+              marginBottom: '36px',
             }}
           >
-            <button className="btn btn-primary" onClick={onNavigateToBook} style={{ padding: '14px 32px' }}>
+            <button className="btn btn-primary" onClick={onNavigateToBook} style={{ padding: '13px 28px', fontSize: '0.98rem' }}>
               Book appointment <ChevronRight size={16} />
             </button>
-            <button className="btn btn-secondary" onClick={onNavigateToLogin} style={{ padding: '14px 28px' }}>
+            <button className="btn btn-secondary" onClick={onNavigateToLogin} style={{ padding: '13px 24px', fontSize: '0.98rem' }}>
               Access portals
             </button>
           </div>
 
-          {/* Clinical Indicators Centered */}
+          {/* Clinical Indicators */}
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '24px',
-              fontSize: '13px',
+              fontSize: '12.5px',
+              fontWeight: 600,
               color: 'var(--muted)',
               flexWrap: 'wrap',
+              borderTop: '1px solid var(--line)',
+              paddingTop: '20px',
             }}
           >
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ color: 'var(--accent)' }}>●</span> Zero double bookings guaranteed
+              <span style={{ color: 'var(--orange)' }}>●</span> Zero double bookings guaranteed
             </span>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ color: '#2E5939' }}>●</span> Deterministic emergency triage
+              <span style={{ color: 'var(--orange)' }}>●</span> Deterministic emergency triage
             </span>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ color: '#5C4E7C' }}>●</span> 5 accredited eye specialists
+              <span style={{ color: 'var(--orange)' }}>●</span> 5 accredited eye specialists
             </span>
           </div>
         </div>
       </section>
 
       {/* =========================================================================
-          HORIZONTAL CLINICAL SCENARIOS SCROLL (Fully contained & responsive)
+          HORIZONTAL CLINICAL SCENARIOS SCROLL
          ========================================================================= */}
-      <section className="clinical-scenario-container" style={{ minWidth: 0, width: '100%', boxSizing: 'border-box' }}>
-        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-          <span className="cursive" style={{ fontSize: '26px', color: 'var(--muted)' }}>
-            daily clinic rhythms
-          </span>
-          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', marginTop: '2px' }}>
+      <section className="clinical-scenario-container" style={{ width: '100%', boxSizing: 'border-box' }}>
+        <div style={{ textAlign: 'center', marginBottom: '22px' }}>
+          <span className="eyebrow">Daily Clinic Rhythms</span>
+          <h2 style={{ fontSize: 'clamp(1.7rem, 3.2vw, 2.3rem)', marginTop: '2px' }}>
             A day inside the NetraCare front desk
           </h2>
-          <p style={{ color: 'var(--muted)', fontSize: '1rem', maxWidth: '540px', margin: '8px auto 0 auto' }}>
+          <p style={{ color: 'var(--muted)', fontSize: '0.95rem', maxWidth: '540px', margin: '6px auto 0 auto' }}>
             Explore how appointments, acute emergencies, and specialized intakes flow smoothly across our clinic.
           </p>
         </div>
 
-        {/* Scrolling Card Track within bounds */}
-        <div style={{ position: 'relative', width: '100%', minWidth: 0 }}>
+        {/* Scrolling Card Track */}
+        <div style={{ position: 'relative', width: '100%' }}>
           <div
             ref={scenarioTrackRef}
             className="clinical-scenario-track"
@@ -312,23 +263,15 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
             {CLINICAL_SCENARIOS.map((item, idx) => (
               <div key={idx} className="clinical-scenario-card">
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px', color: 'var(--muted)', fontWeight: 500 }}>
+                  <span style={{ fontSize: '13px', color: 'var(--muted)', fontWeight: 600 }}>
                     {item.time}
                   </span>
-                  <span
-                    style={{
-                      fontSize: '11px',
-                      color: 'var(--muted)',
-                      background: 'var(--off)',
-                      padding: '2px 8px',
-                      borderRadius: 'var(--radius-full)',
-                    }}
-                  >
+                  <span className="badge" style={{ fontSize: '11px', padding: '2px 8px' }}>
                     {item.tag}
                   </span>
                 </div>
 
-                <p className="scenario-text" style={{ fontSize: '18px', fontWeight: 500, lineHeight: 1.35, color: 'var(--ink)' }}>
+                <p className="scenario-text" style={{ fontSize: '0.95rem', fontWeight: 600, lineHeight: 1.4, color: 'var(--ink)' }}>
                   {item.text}
                 </p>
               </div>
@@ -336,160 +279,161 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
           </div>
 
           {/* Centered Scroll Controls */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginTop: '12px' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '12px' }}>
             <button
               onClick={() => scrollScenarios(-300)}
               className="btn btn-secondary"
-              style={{ width: '40px', height: '40px', padding: 0, borderRadius: '50%' }}
+              style={{ width: '38px', height: '38px', padding: 0, borderRadius: '50%' }}
               aria-label="Scroll left"
             >
-              <ChevronLeft size={18} />
+              <ChevronLeft size={16} />
             </button>
             <button
               onClick={() => scrollScenarios(300)}
               className="btn btn-secondary"
-              style={{ width: '40px', height: '40px', padding: 0, borderRadius: '50%' }}
+              style={{ width: '38px', height: '38px', padding: 0, borderRadius: '50%' }}
               aria-label="Scroll right"
             >
-              <ChevronRight size={18} />
+              <ChevronRight size={16} />
             </button>
           </div>
         </div>
       </section>
 
       {/* =========================================================================
-          CLINIC HOURS & RULES ENFORCED (Centered Responsive Grid)
+          CLINIC HOURS & RULES ENFORCED
          ========================================================================= */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
           gap: '24px',
           width: '100%',
-          minWidth: 0,
         }}
       >
         {/* Hours & Sessions */}
-        <div className="card" style={{ minWidth: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-            <div
-              style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '50%',
-                backgroundColor: 'var(--accent-soft)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#C85348',
-              }}
-            >
-              <Clock size={18} />
+        <div className="card">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '18px' }}>
+            <div className="icon-tile">
+              <Clock size={20} />
             </div>
-            <h3>Clinic Timings & Sessions</h3>
+            <div>
+              <span className="eyebrow" style={{ marginBottom: 0 }}>Schedule</span>
+              <h3 style={{ margin: 0 }}>Clinic Timings & Sessions</h3>
+            </div>
           </div>
-          <ul style={{ listStyle: 'none', display: 'grid', gap: '10px', fontSize: '0.96rem' }}>
-            <li style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px' }}>
+          <ul style={{ listStyle: 'none', display: 'grid', gap: '12px', fontSize: '0.94rem' }}>
+            <li style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px', borderBottom: '1px solid var(--line)', paddingBottom: '8px' }}>
               <span style={{ color: 'var(--muted)' }}>Operating Days</span>
-              <b>Monday to Saturday</b>
+              <b style={{ color: 'var(--ink)' }}>Monday to Saturday</b>
             </li>
-            <li style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px' }}>
+            <li style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px', borderBottom: '1px solid var(--line)', paddingBottom: '8px' }}>
               <span style={{ color: 'var(--muted)' }}>Morning Session</span>
-              <b>09:00 AM – 01:00 PM</b>
+              <b style={{ color: 'var(--ink)' }}>09:00 AM – 01:00 PM</b>
             </li>
-            <li style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px' }}>
+            <li style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px', borderBottom: '1px solid var(--line)', paddingBottom: '8px' }}>
               <span style={{ color: 'var(--muted)' }}>Lunch Intermission</span>
-              <span style={{ color: 'var(--muted)' }}>01:00 PM – 02:00 PM (Closed)</span>
+              <span style={{ color: 'var(--muted)', fontWeight: 500 }}>01:00 PM – 02:00 PM (Closed)</span>
             </li>
-            <li style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px' }}>
+            <li style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px', borderBottom: '1px solid var(--line)', paddingBottom: '8px' }}>
               <span style={{ color: 'var(--muted)' }}>Evening Session</span>
-              <b>02:00 PM – 06:00 PM</b>
+              <b style={{ color: 'var(--ink)' }}>02:00 PM – 06:00 PM</b>
             </li>
-            <li style={{ color: 'var(--danger)', fontWeight: 500, paddingTop: '4px' }}>
+            <li style={{ color: 'var(--danger)', fontWeight: 600, paddingTop: '4px', fontSize: '0.88rem' }}>
               Closed on Sundays and Listed Public Holidays
             </li>
           </ul>
         </div>
 
         {/* Rules Enforced */}
-        <div className="card" style={{ minWidth: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-            <div
-              style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '50%',
-                backgroundColor: 'var(--sage)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'var(--sage-ink)',
-              }}
-            >
-              <ShieldCheck size={18} />
+        <div className="card">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '18px' }}>
+            <div className="icon-tile">
+              <ShieldCheck size={20} />
             </div>
-            <h3>Clinical Rules Enforced</h3>
+            <div>
+              <span className="eyebrow" style={{ marginBottom: 0 }}>Validation</span>
+              <h3 style={{ margin: 0 }}>Clinical Rules Enforced</h3>
+            </div>
           </div>
-          <ul style={{ listStyle: 'none', display: 'grid', gap: '10px', fontSize: '0.96rem' }}>
-            <li>✓ <b>New Consultation:</b> 20 minutes allocated duration</li>
-            <li>✓ <b>Follow-up Visit:</b> 10 minutes with previous specialist</li>
-            <li>✓ <b>Paediatric Age Gate:</b> Patients under 16 strictly with Dr. Vikram Menon</li>
-            <li>✓ <b>Cancellation Window:</b> Up to 2 hours before scheduled slot</li>
-            <li>✓ <b>Safety Rule:</b> Immediate triage and lockout for red-flag symptoms</li>
+          <ul style={{ listStyle: 'none', display: 'grid', gap: '12px', fontSize: '0.92rem' }}>
+            <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+              <Check size={16} color="var(--orange)" style={{ flexShrink: 0, marginTop: '3px' }} />
+              <div><b style={{ color: 'var(--ink)' }}>New Consultation:</b> 20 minutes allocated duration</div>
+            </li>
+            <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+              <Check size={16} color="var(--orange)" style={{ flexShrink: 0, marginTop: '3px' }} />
+              <div><b style={{ color: 'var(--ink)' }}>Follow-up Visit:</b> 10 minutes with previous specialist</div>
+            </li>
+            <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+              <Check size={16} color="var(--orange)" style={{ flexShrink: 0, marginTop: '3px' }} />
+              <div><b style={{ color: 'var(--ink)' }}>Paediatric Age Gate:</b> Patients under 16 strictly with Dr. Vikram Menon</div>
+            </li>
+            <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+              <Check size={16} color="var(--orange)" style={{ flexShrink: 0, marginTop: '3px' }} />
+              <div><b style={{ color: 'var(--ink)' }}>Cancellation Window:</b> Up to 2 hours before scheduled slot</div>
+            </li>
+            <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+              <Check size={16} color="var(--orange)" style={{ flexShrink: 0, marginTop: '3px' }} />
+              <div><b style={{ color: 'var(--ink)' }}>Safety Rule:</b> Immediate triage and lockout for red-flag symptoms</div>
+            </li>
           </ul>
         </div>
       </div>
 
       {/* =========================================================================
-          DOCTORS & SPECIALITIES (Centered Header, Responsive Grid)
+          DOCTORS & SPECIALITIES
          ========================================================================= */}
-      <section id="doctors" className="card" style={{ minWidth: 0, width: '100%', boxSizing: 'border-box' }}>
+      <section id="doctors" className="card" style={{ width: '100%', boxSizing: 'border-box' }}>
         <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-          <span className="cursive" style={{ fontSize: '26px', color: 'var(--muted)' }}>
-            accredited clinicians
-          </span>
-          <h3 style={{ fontSize: '1.9rem', marginTop: '2px' }}>Our Doctors & Superspecialities</h3>
-          <p style={{ color: 'var(--muted)', fontSize: '0.98rem', marginTop: '6px' }}>
+          <span className="eyebrow">Accredited Clinicians</span>
+          <h2 style={{ fontSize: 'clamp(1.7rem, 3.2vw, 2.3rem)', marginTop: '2px' }}>
+            Our Doctors & Superspecialities
+          </h2>
+          <p style={{ color: 'var(--muted)', fontSize: '0.95rem', marginTop: '6px' }}>
             Five specialist ophthalmologists providing comprehensive medical, surgical, and paediatric eye care.
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px', width: '100%' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '18px', width: '100%' }}>
           {doctors.map((doc) => (
             <div
               key={doc.id}
+              className="card-interactive"
               style={{
                 border: '1px solid var(--line)',
-                borderRadius: '18px',
-                padding: '20px',
-                background: 'var(--surface)',
-                boxShadow: 'var(--shadow-soft)',
+                borderRadius: 'var(--radius-card)',
+                padding: '20px 22px',
+                background: 'var(--paper)',
+                boxShadow: 'var(--card-shadow)',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
+                transition: 'all 0.2s ease',
               }}
             >
               <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                  <span className="mono" style={{ fontWeight: 600, color: '#C85348' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                  <span className="mono" style={{ fontWeight: 700, color: 'var(--orangeDark)' }}>
                     {doc.id}
                   </span>
-                  <span className="badge badge-opd">Active</span>
+                  <span className="badge">Active</span>
                 </div>
-                <h4 style={{ fontSize: '1.2rem', marginBottom: '10px' }}>{doc.name}</h4>
+                <h3 style={{ fontSize: '1.18rem', marginBottom: '8px', color: 'var(--ink)' }}>{doc.name}</h3>
               </div>
 
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '12px' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '16px' }}>
                 {doc.specialities.map((spec) => (
                   <span
                     key={spec}
                     style={{
-                      fontSize: '0.8rem',
-                      background: 'var(--off)',
+                      fontSize: '0.78rem',
+                      background: 'var(--wash)',
                       padding: '4px 10px',
                       borderRadius: 'var(--radius-full)',
                       border: '1px solid var(--line)',
-                      color: 'var(--ink)',
+                      color: 'var(--slate2)',
+                      fontWeight: 500,
                     }}
                   >
                     {spec}
@@ -502,15 +446,15 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
       </section>
 
       {/* =========================================================================
-          WEEKLY OPD SCHEDULE GRID (Contained within schedule-table-wrapper)
+          WEEKLY OPD SCHEDULE GRID
          ========================================================================= */}
-      <section id="schedule" className="card" style={{ minWidth: 0, width: '100%', boxSizing: 'border-box' }}>
+      <section id="schedule" className="card" style={{ width: '100%', boxSizing: 'border-box' }}>
         <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-          <span className="cursive" style={{ fontSize: '26px', color: 'var(--muted)' }}>
-            rotation timetable
-          </span>
-          <h3 style={{ fontSize: '1.9rem', marginTop: '2px' }}>Weekly OPD Grid</h3>
-          <p style={{ color: 'var(--muted)', fontSize: '0.98rem', marginTop: '6px' }}>
+          <span className="eyebrow">Roster Schedule</span>
+          <h2 style={{ fontSize: 'clamp(1.7rem, 3.2vw, 2.3rem)', marginTop: '2px' }}>
+            Weekly OPD Grid
+          </h2>
+          <p style={{ color: 'var(--muted)', fontSize: '0.95rem', marginTop: '6px' }}>
             Doctors conduct Outpatient Consultations (OPD), Surgeries (SX), or have scheduled off days.
           </p>
         </div>
@@ -519,61 +463,61 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
         <div className="schedule-table-wrapper">
           <table className="schedule-table">
             <thead>
-              <tr style={{ background: 'var(--off)', borderBottom: '1px solid var(--line)' }}>
-                <th style={{ padding: '14px 16px', textAlign: 'left', fontWeight: 600 }}>Doctor</th>
-                <th style={{ padding: '14px 10px', fontWeight: 600 }}>Mon</th>
-                <th style={{ padding: '14px 10px', fontWeight: 600 }}>Tue</th>
-                <th style={{ padding: '14px 10px', fontWeight: 600 }}>Wed</th>
-                <th style={{ padding: '14px 10px', fontWeight: 600 }}>Thu</th>
-                <th style={{ padding: '14px 10px', fontWeight: 600 }}>Fri</th>
-                <th style={{ padding: '14px 10px', fontWeight: 600 }}>Sat</th>
+              <tr>
+                <th style={{ textAlign: 'left' }}>Doctor</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
               </tr>
             </thead>
             <tbody>
-              <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                <td style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600 }}>Dr. Anand Rao</td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
-                <td><span className="badge badge-sx">SX</span> <span className="badge badge-opd">PM</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
-              </tr>
-              <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                <td style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600 }}>Dr. Meera Iyer</td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
-                <td><span className="badge badge-sx">SX</span> <span className="badge badge-sx">SX</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
-                <td><span className="badge badge-off">OFF</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
-              </tr>
-              <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                <td style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600 }}>Dr. Kiran Shah</td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-sx">SX</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
-                <td><span className="badge badge-off">OFF</span></td>
-              </tr>
-              <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                <td style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600 }}>Dr. Fatima Khan</td>
-                <td><span className="badge badge-sx">SX</span> <span className="badge badge-sx">SX</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
+              <tr>
+                <td style={{ textAlign: 'left', fontWeight: 700, color: 'var(--ink)' }}>Dr. Anand Rao</td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
+                <td><span className="badge">SX</span> <span className="badge">PM</span></td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
               </tr>
               <tr>
-                <td style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600 }}>Dr. Vikram Menon</td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
+                <td style={{ textAlign: 'left', fontWeight: 700, color: 'var(--ink)' }}>Dr. Meera Iyer</td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
+                <td><span className="badge">SX</span> <span className="badge">SX</span></td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
                 <td><span className="badge badge-off">OFF</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
+              </tr>
+              <tr>
+                <td style={{ textAlign: 'left', fontWeight: 700, color: 'var(--ink)' }}>Dr. Kiran Shah</td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
+                <td><span className="badge">AM</span> <span className="badge">SX</span></td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
                 <td><span className="badge badge-off">OFF</span></td>
-                <td><span className="badge badge-opd">AM</span> <span className="badge badge-opd">PM</span></td>
+              </tr>
+              <tr>
+                <td style={{ textAlign: 'left', fontWeight: 700, color: 'var(--ink)' }}>Dr. Fatima Khan</td>
+                <td><span className="badge">SX</span> <span className="badge">SX</span></td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
+              </tr>
+              <tr>
+                <td style={{ textAlign: 'left', fontWeight: 700, color: 'var(--ink)' }}>Dr. Vikram Menon</td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
+                <td><span className="badge badge-off">OFF</span></td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
+                <td><span className="badge badge-off">OFF</span></td>
+                <td><span className="badge">AM</span> <span className="badge">PM</span></td>
               </tr>
             </tbody>
           </table>
@@ -581,22 +525,20 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
       </section>
 
       {/* =========================================================================
-          INTERACTIVE FAQ ACCORDION (Centered Header & Container)
+          INTERACTIVE FAQ ACCORDION
          ========================================================================= */}
-      <section id="faq" style={{ minWidth: 0, width: '100%', boxSizing: 'border-box' }}>
-        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <span className="cursive" style={{ fontSize: '26px', color: 'var(--muted)' }}>
-            patient guidance
-          </span>
-          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', marginTop: '2px' }}>
+      <section id="faq" style={{ width: '100%', boxSizing: 'border-box' }}>
+        <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+          <span className="eyebrow">Patient Guidance</span>
+          <h2 style={{ fontSize: 'clamp(1.7rem, 3.2vw, 2.3rem)', marginTop: '2px' }}>
             Frequently Asked Clinic Questions
           </h2>
-          <p style={{ color: 'var(--muted)', fontSize: '1rem', marginTop: '6px' }}>
+          <p style={{ color: 'var(--muted)', fontSize: '0.95rem', marginTop: '6px' }}>
             Everything you need to know about our safety screening, doctor appointments, and procedures.
           </p>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', maxWidth: '820px', margin: '0 auto', width: '100%', boxSizing: 'border-box' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '860px', margin: '0 auto', width: '100%', boxSizing: 'border-box' }}>
           {CLINIC_FAQS.map((faq) => {
             const isOpen = openFaq === faq.id;
 
@@ -609,7 +551,7 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
                 >
                   <span style={{ paddingRight: '16px', lineHeight: 1.4 }}>{faq.q}</span>
                   <div className={`softly-faq-rotator ${isOpen ? 'expanded' : ''}`}>
-                    <Plus size={18} />
+                    <Plus size={16} />
                   </div>
                 </button>
 
@@ -629,77 +571,86 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
       </section>
 
       {/* =========================================================================
-          WAITLIST / BOOKING CONVERSION SECTION (Centered & Contained)
+          DARK PANEL BANNER (YC-Classic SaaS Banner with Blurred Orange Glow Blobs)
          ========================================================================= */}
       <section
-        className="card"
+        className="dark-panel"
         style={{
-          background: 'linear-gradient(180deg, #FFFFFF 0%, #FAFAF7 100%)',
-          borderRadius: 'var(--radius-xl)',
-          padding: '56px 28px',
-          textAlign: 'center',
-          boxShadow: 'var(--shadow-lg)',
-          position: 'relative',
-          overflow: 'hidden',
-          maxWidth: '820px',
+          maxWidth: '920px',
           margin: '0 auto',
           width: '100%',
+          textAlign: 'center',
           boxSizing: 'border-box',
-          minWidth: 0,
         }}
       >
-        {/* NetraCare Emblem Title Card Badge */}
-        <div
-          style={{
-            margin: '0 auto 20px auto',
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '6px',
-            borderRadius: '24px',
-            background: 'rgba(255, 255, 255, 0.95)',
-            boxShadow: 'var(--shadow-glass)',
-            border: '1px solid var(--line)',
-          }}
-          aria-hidden="true"
-        >
-          <NetraCareLogo size={52} />
-        </div>
+        {/* Glow Blobs */}
+        <div className="dark-panel-glow-tr" aria-hidden="true" />
+        <div className="dark-panel-glow-bl" aria-hidden="true" />
 
-        <span className="cursive" style={{ fontSize: '26px', color: 'var(--muted)', display: 'block' }}>
-          seamless care coordination
-        </span>
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div
+            style={{
+              margin: '0 auto 18px auto',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <NetraCareLogo size={44} />
+          </div>
 
-        <h2 style={{ fontSize: 'clamp(2rem, 4.5vw, 2.75rem)', marginBottom: '12px' }}>
-          Schedule your consultation with peace of mind
-        </h2>
+          <span
+            style={{
+              color: 'var(--orange)',
+              fontSize: '11px',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.16em',
+              display: 'block',
+              marginBottom: '6px',
+            }}
+          >
+            Seamless Care Coordination
+          </span>
 
-        <p style={{ color: 'var(--muted)', fontSize: '1.05rem', maxWidth: '520px', margin: '0 auto 28px auto' }}>
-          Select your specialist, find guaranteed slots up to 30 days ahead, and receive personalized pre-visit care instructions.
-        </p>
+          <h2 style={{ fontSize: 'clamp(1.9rem, 4vw, 2.6rem)', color: '#ffffff', marginBottom: '14px', letterSpacing: '-0.04em' }}>
+            Schedule your consultation with peace of mind
+          </h2>
 
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '14px', flexWrap: 'wrap' }}>
-          <button className="btn btn-primary" onClick={onNavigateToBook} style={{ padding: '16px 36px', fontSize: '1rem' }}>
-            Book Appointment Now <ChevronRight size={16} />
-          </button>
-          <button className="btn btn-secondary" onClick={onNavigateToLogin} style={{ padding: '16px 28px', fontSize: '1rem' }}>
-            Patient Portal Login
-          </button>
-        </div>
+          <p style={{ color: '#cbd5e1', fontSize: '1rem', maxWidth: '540px', margin: '0 auto 28px auto', lineHeight: 1.6 }}>
+            Select your specialist, find guaranteed slots up to 30 days ahead, and receive personalized pre-visit care instructions.
+          </p>
 
-        <div
-          style={{
-            marginTop: '28px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '8px',
-            fontSize: '12px',
-            color: 'var(--muted)',
-          }}
-        >
-          <ShieldCheck size={14} />
-          <span>Zero double booking · Verified doctor availability · Clinic confidential</span>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '14px', flexWrap: 'wrap' }}>
+            <button className="btn btn-primary" onClick={onNavigateToBook} style={{ padding: '14px 30px', fontSize: '0.98rem' }}>
+              Book Appointment Now <ChevronRight size={16} />
+            </button>
+            <button
+              className="btn btn-dark-ghost"
+              onClick={onNavigateToLogin}
+              style={{
+                padding: '14px 26px',
+                fontSize: '0.98rem',
+              }}
+            >
+              Patient Portal Login
+            </button>
+          </div>
+
+          <div
+            style={{
+              marginTop: '24px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              fontSize: '12px',
+              color: '#94a3b8',
+            }}
+          >
+            <ShieldCheck size={14} color="var(--orange)" />
+            <span>Zero double booking · Verified doctor availability · Clinic confidential</span>
+          </div>
         </div>
       </section>
     </div>

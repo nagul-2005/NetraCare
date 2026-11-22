@@ -34,54 +34,40 @@ export default function FactOfTheDay() {
   };
 
   return (
-    <div style={{
-      background: 'linear-gradient(135deg, #ffffff 0%, var(--accent-soft) 100%)',
-      border: '1px solid var(--line)',
-      borderRadius: '12px',
-      padding: '16px 20px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      gap: '16px',
-      boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
-    }}>
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-        <div style={{
-          background: 'var(--accent)',
-          color: '#ffffff',
-          borderRadius: '50%',
-          width: '32px',
-          height: '32px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexShrink: 0,
-          marginTop: '2px',
-        }}>
-          <Sparkles size={16} />
+    <div
+      style={{
+        background: 'var(--paper)',
+        border: '1px solid var(--line)',
+        borderRadius: 'var(--radius-card)',
+        padding: '18px 22px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: '16px',
+        boxShadow: 'var(--card-shadow)',
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+        <div className="icon-tile">
+          <Sparkles size={20} />
         </div>
         <div>
-          <span style={{
-            fontSize: '0.75rem',
-            fontFamily: 'var(--font-mono)',
-            fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: '0.06em',
-            color: 'var(--accent)',
-          }}>
+          <span className="eyebrow" style={{ marginBottom: '2px' }}>
             Fact of the Day
           </span>
-          <p style={{
-            fontSize: '0.98rem',
-            color: 'var(--ink)',
-            marginTop: '2px',
-            marginBottom: '4px',
-            maxWidth: '680px',
-            lineHeight: 1.45,
-          }}>
+          <p
+            style={{
+              fontSize: '0.94rem',
+              fontWeight: 500,
+              color: 'var(--ink)',
+              margin: '2px 0 4px 0',
+              maxWidth: '720px',
+              lineHeight: 1.5,
+            }}
+          >
             {fact || "Loading eye health fact..."}
           </p>
-          <span style={{ fontSize: '0.78rem', color: 'var(--muted)', fontStyle: 'italic' }}>
+          <span style={{ fontSize: '0.78rem', color: 'var(--muted)', fontWeight: 400 }}>
             {caveat}
           </span>
         </div>
@@ -91,15 +77,15 @@ export default function FactOfTheDay() {
         type="button"
         className="btn btn-secondary"
         style={{
-          padding: '6px 12px',
-          fontSize: '0.85rem',
+          padding: '7px 13px',
+          fontSize: '0.84rem',
           flexShrink: 0,
         }}
         onClick={handleRefresh}
         disabled={loading}
       >
-        <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-        {loading ? 'Fetching...' : 'Refresh'}
+        <RefreshCw size={13} className={loading ? 'animate-spin' : ''} />
+        Refresh
       </button>
     </div>
   );
