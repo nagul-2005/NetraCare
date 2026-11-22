@@ -188,7 +188,8 @@ export default function PatientChat() {
           minHeight: '260px',
           maxHeight: '440px',
           overflowY: 'auto',
-          display: 'grid',
+          display: 'flex',
+          flexDirection: 'column',
           gap: '12px',
           paddingRight: '6px',
         }}
@@ -197,8 +198,9 @@ export default function PatientChat() {
           <div
             key={idx}
             style={{
-              justifySelf: m.role === 'user' ? 'end' : 'start',
+              alignSelf: m.role === 'user' ? 'flex-end' : 'flex-start',
               maxWidth: '85%',
+              width: 'fit-content',
               background: m.role === 'user'
                 ? 'var(--orange)'
                 : m.emergency
@@ -298,7 +300,7 @@ export default function PatientChat() {
           </div>
         ))}
         {loading && (
-          <div style={{ justifySelf: 'start', background: 'var(--wash)', border: '1px solid var(--line)', borderRadius: '12px', padding: '10px 14px', fontSize: '0.88rem', color: 'var(--muted)' }}>
+          <div style={{ alignSelf: 'flex-start', background: 'var(--wash)', border: '1px solid var(--line)', borderRadius: '12px', padding: '10px 14px', fontSize: '0.88rem', color: 'var(--muted)' }}>
             Processing with clinic assistant...
           </div>
         )}
