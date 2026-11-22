@@ -3,7 +3,9 @@
  * Automatically injects the X-Session-Data header from localStorage.
  */
 
-const API_BASE = '/api/v1';
+const API_BASE = import.meta.env.VITE_API_BASE_URL
+  ? `${import.meta.env.VITE_API_BASE_URL.replace(/\/$/, '')}/api/v1`
+  : '/api/v1';
 
 function getSessionToken() {
   return localStorage.getItem('netracare_session_token');
