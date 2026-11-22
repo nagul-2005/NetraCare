@@ -103,7 +103,7 @@ def judge_summary(
 ) -> SummaryJudgeOutput:
     """Evaluate a doctor summary using LLM or rule-based evaluator."""
     api_key = settings.GEMINI_API_KEY or os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or os.getenv("OPENAI_API_KEY")
-    judge_model_name = os.getenv("JUDGE_MODEL", "gemini-2.5-flash")
+    judge_model_name = os.getenv("JUDGE_MODEL", "gemini-3.5-flash-lite")
 
     if api_key:
         try:

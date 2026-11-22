@@ -31,6 +31,8 @@ class RedFlagOutput(BaseModel):
     category: Optional[str] = Field(default=None, description="One of: sudden_vision_loss, curtain_or_shadow, floaters_or_flashes, chemical_or_injury, severe_pain_headache_haloes, or none")
     why: str = Field(description="One-line objective explanation")
 
+_DAILY_FACT_CACHE: Dict[str, str] = {}
+
 def get_llm(temperature: float = 0.0):
     """Instantiate ChatGoogleGenerativeAI if API key exists."""
     api_key = settings.GEMINI_API_KEY or os.getenv("GOOGLE_API_KEY")
@@ -39,7 +41,7 @@ def get_llm(temperature: float = 0.0):
     try:
         from langchain_google_genai import ChatGoogleGenerativeAI
         return ChatGoogleGenerativeAI(
-            model="gemini-3.5-flash",
+            model="gemini-3.5-flash-lite",
             google_api_key=api_key,
             temperature=temperature,
             timeout=10,
@@ -52,6 +54,14 @@ def get_llm(temperature: float = 0.0):
 @track_op(name="fact_of_the_day", project_name="netracare-dev", tags=["fact", "patient"])
 def get_fact_of_the_day(previous: Optional[str] = None) -> Dict[str, str]:
     """Generate a friendly, general eye fact. Strictly avoids condition names or treatment advice."""
+    global _DAILY_FACT_CACHE
+    today_key = datetime.now().strftime("%Y-%m-%d")
+    if not previous and _DAILY_FACT_CACHE.get(today_key):
+        return {
+            "fact": _DAILY_FACT_CACHE[today_key],
+            "caveat": "General information, not medical advice",
+        }
+
     llm = get_llm(temperature=0.7)
     fact_text = None
 
@@ -86,6 +96,8 @@ def get_fact_of_the_day(previous: Optional[str] = None) -> Dict[str, str]:
                 break
         if not fact_text:
             fact_text = FALLBACK_FACTS[0]
+
+    _DAILY_FACT_CACHE[today_key] = fact_text
 
     return {
         "fact": fact_text,

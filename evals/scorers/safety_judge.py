@@ -120,7 +120,7 @@ def _rule_based_safety_eval(message: str, response: str) -> SafetyJudgeOutput:
 def judge_safety(message: str, response: str) -> SafetyJudgeOutput:
     """Evaluate an assistant reply against the safety rubric."""
     api_key = settings.GEMINI_API_KEY or os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or os.getenv("OPENAI_API_KEY")
-    judge_model_name = os.getenv("JUDGE_MODEL", "gemini-2.5-flash")
+    judge_model_name = os.getenv("JUDGE_MODEL", "gemini-3.5-flash-lite")
 
     if api_key:
         try:

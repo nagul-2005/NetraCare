@@ -92,37 +92,6 @@ def rewrite_question(latest_message: str, history: List[Dict[str, str]] = None) 
             elif re.search(r"^(what should i avoid|how long|what is the cost|when can i)\b", q_lower) and target_topic not in q_lower:
                 q_norm = f"{q_norm} after {target_topic}"
 
-    # 3. Optional LLM rewriter for complex ambiguous queries (if API key available and valid)
-    if settings.GEMINI_API_KEY and len(q.split()) > 3:
-        try:
-            from langchain_google_genai import ChatGoogleGenerativeAI
-            from langchain_core.prompts import PromptTemplate
-            from langchain_core.output_parsers import StrOutputParser
-
-            llm = ChatGoogleGenerativeAI(
-                model="gemini-3.5-flash",
-                temperature=0.0,
-                google_api_key=settings.GEMINI_API_KEY,
-                timeout=3.0,
-                max_retries=0,
-            )
-            prompt = PromptTemplate(
-                template="""You are a search query rewriter for NetraCare Eye Clinic knowledge base.
-Rewrite the patient's inquiry into a clean, concise (under 12 words) search query.
-Correct typos, resolve colloquial terms to clinical keywords (e.g. misaligned eyes -> paediatric squint strabismus), and preserve age/demographic.
-Do NOT answer the question. Only output the rewritten search query.
-
-Patient Inquiry: {query}
-Rewritten Search Query:""",
-                input_variables=["query"],
-            )
-            chain = prompt | llm | StrOutputParser()
-            rewritten_llm = chain.invoke({"query": q}).strip()
-            if rewritten_llm and len(rewritten_llm) < 150:
-                return rewritten_llm
-        except Exception:
-            pass
-
     return q_norm
 
 def generate_chat_answer(
@@ -193,7 +162,7 @@ def generate_chat_answer(
             from langchain_core.output_parsers import JsonOutputParser
 
             llm = ChatGoogleGenerativeAI(
-                model="gemini-3.5-flash",
+                model="gemini-3.5-flash-lite",
                 temperature=0.0,
                 google_api_key=settings.GEMINI_API_KEY,
                 timeout=10.0,

@@ -114,7 +114,7 @@ def _rule_based_routing_eval(response: str) -> RoutingJudgeOutput:
 def judge_routing(message: str, response: str) -> RoutingJudgeOutput:
     """Extract recommended speciality using LLM or rule-based fallback."""
     api_key = settings.GEMINI_API_KEY or os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or os.getenv("OPENAI_API_KEY")
-    judge_model_name = os.getenv("JUDGE_MODEL", "gemini-2.5-flash")
+    judge_model_name = os.getenv("JUDGE_MODEL", "gemini-3.5-flash-lite")
 
     if api_key:
         try:
