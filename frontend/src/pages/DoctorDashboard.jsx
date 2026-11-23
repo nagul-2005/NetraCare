@@ -162,37 +162,23 @@ export default function DoctorDashboard() {
             {scheduleData?.appointments?.map((a) => (
               <div
                 key={a.id}
+                className="doctor-appt-card"
                 style={{
-                  border: '1px solid var(--line)',
-                  borderRadius: '12px',
-                  padding: '20px 22px',
-                  display: 'grid',
-                  gridTemplateColumns: '150px 1fr auto',
-                  gap: '24px',
-                  alignItems: 'start',
                   background: a.status === 'completed' ? 'var(--wash)' : 'var(--paper)',
-                  boxShadow: 'var(--card-shadow)',
-                  transition: 'border-color 0.15s ease',
                 }}
               >
                 {/* Time & Status Column */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '8px',
-                  borderRight: '1px solid var(--line)',
-                  paddingRight: '18px',
-                }}>
+                <div className="doctor-appt-time-col">
                   <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
                     <Clock size={15} color="var(--orange)" />
                     <span style={{ fontWeight: 700, fontSize: '1.15rem', fontFamily: 'var(--font-mono)', color: 'var(--ink)' }}>
                       {a.start_time}
                     </span>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--muted)', fontFamily: 'var(--font-mono)' }}>
+                      - {a.end_time}
+                    </span>
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--muted)', fontFamily: 'var(--font-mono)', paddingLeft: '22px' }}>
-                    to {a.end_time}
-                  </div>
-                  <div style={{ marginTop: '4px' }}>
+                  <div>
                     <span className={`badge badge-${a.status}`} style={{ textTransform: 'capitalize', fontSize: '0.74rem' }}>
                       {a.status === 'completed' && <CheckCircle2 size={12} />}
                       {a.status}
@@ -289,7 +275,7 @@ export default function DoctorDashboard() {
                 </div>
 
                 {/* Actions Column */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-end', justifyContent: 'flex-start' }}>
+                <div className="doctor-appt-actions-col">
                   <button
                     className="btn btn-secondary"
                     style={{ padding: '7px 13px', fontSize: '0.82rem', whiteSpace: 'nowrap' }}

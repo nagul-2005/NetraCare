@@ -119,15 +119,15 @@ export default function Login({ onLoginSuccess }) {
   };
 
   return (
-    <div className="container" style={{ maxWidth: '480px', marginTop: '36px', marginBottom: '36px' }}>
-      <div className="card" style={{ padding: '38px 32px', textAlign: 'center', boxShadow: 'var(--browser-shadow)' }}>
+    <div className="container" style={{ maxWidth: '480px', marginTop: '24px', marginBottom: '32px' }}>
+      <div className="card" style={{ padding: 'clamp(24px, 5vw, 38px) clamp(16px, 4vw, 32px)', textAlign: 'center', boxShadow: 'var(--browser-shadow)' }}>
         {/* Logo and Eyebrow */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '14px' }}>
-          <NetraCareLogo size={44} />
-          <span className="eyebrow" style={{ marginTop: '12px', marginBottom: '0' }}>Portal Authentication</span>
+          <NetraCareLogo size={42} />
+          <span className="eyebrow" style={{ marginTop: '10px', marginBottom: '0' }}>Portal Authentication</span>
         </div>
 
-        <h2 style={{ fontSize: '1.75rem', textAlign: 'center', marginBottom: '6px', color: 'var(--ink)' }}>
+        <h2 style={{ fontSize: 'clamp(1.4rem, 4vw, 1.75rem)', textAlign: 'center', marginBottom: '6px', color: 'var(--ink)' }}>
           {role === 'patient'
             ? patientMode === 'register'
               ? 'Patient Register'
@@ -136,7 +136,7 @@ export default function Login({ onLoginSuccess }) {
             ? 'Doctor Portal'
             : 'Staff Portal'}
         </h2>
-        <p style={{ textAlign: 'center', color: 'var(--muted)', fontSize: '0.92rem', marginBottom: '22px' }}>
+        <p style={{ textAlign: 'center', color: 'var(--muted)', fontSize: '0.9rem', marginBottom: '20px' }}>
           {role === 'patient'
             ? patientMode === 'register'
               ? 'Enter your details to create your patient profile.'
@@ -153,7 +153,7 @@ export default function Login({ onLoginSuccess }) {
           padding: '4px',
           borderRadius: '11px',
           border: '1px solid var(--line)',
-          marginBottom: '20px',
+          marginBottom: '18px',
         }}>
           <button
             type="button"
@@ -165,12 +165,13 @@ export default function Login({ onLoginSuccess }) {
               boxShadow: role === 'patient' ? 'var(--card-shadow)' : 'none',
               fontWeight: role === 'patient' ? 700 : 500,
               borderRadius: '8px',
-              padding: '8px 10px',
-              fontSize: '0.86rem',
+              padding: '8px 6px',
+              fontSize: '0.84rem',
+              gap: '4px',
             }}
             onClick={() => { setRole('patient'); setError(null); }}
           >
-            <User size={15} /> Patient
+            <User size={14} /> Patient
           </button>
           <button
             type="button"
@@ -182,12 +183,13 @@ export default function Login({ onLoginSuccess }) {
               boxShadow: role === 'doctor' ? 'var(--card-shadow)' : 'none',
               fontWeight: role === 'doctor' ? 700 : 500,
               borderRadius: '8px',
-              padding: '8px 10px',
-              fontSize: '0.86rem',
+              padding: '8px 6px',
+              fontSize: '0.84rem',
+              gap: '4px',
             }}
             onClick={() => { setRole('doctor'); setError(null); }}
           >
-            <Stethoscope size={15} /> Doctor
+            <Stethoscope size={14} /> Doctor
           </button>
           <button
             type="button"
@@ -199,12 +201,13 @@ export default function Login({ onLoginSuccess }) {
               boxShadow: role === 'staff' ? 'var(--card-shadow)' : 'none',
               fontWeight: role === 'staff' ? 700 : 500,
               borderRadius: '8px',
-              padding: '8px 10px',
-              fontSize: '0.86rem',
+              padding: '8px 6px',
+              fontSize: '0.84rem',
+              gap: '4px',
             }}
             onClick={() => { setRole('staff'); setError(null); }}
           >
-            <ShieldCheck size={15} /> Staff
+            <ShieldCheck size={14} /> Staff
           </button>
         </div>
 

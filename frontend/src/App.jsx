@@ -100,7 +100,7 @@ function MainApp() {
           width: '100%',
           background: 'var(--paper)',
           borderTop: '1px solid var(--line)',
-          padding: '36px 24px',
+          padding: '32px clamp(14px, 4vw, 24px)',
           position: 'relative',
           zIndex: 1,
           boxSizing: 'border-box',
@@ -108,13 +108,13 @@ function MainApp() {
       >
         <div className="container" style={{ padding: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap', marginBottom: '16px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
               <NetraCareLogo size={24} />
               <span style={{ fontWeight: 800, color: 'var(--ink)', fontSize: '0.98rem', letterSpacing: '-0.03em' }}>NetraCare</span>
               <span style={{ color: 'var(--muted)', fontSize: '0.85rem' }}>·</span>
               <span style={{ fontSize: '0.85rem', color: 'var(--muted)', fontWeight: 500 }}>AI Front Desk & Care Coordination</span>
             </div>
-            <div style={{ display: 'flex', gap: '18px', fontSize: '13px', fontWeight: 600, color: 'var(--slate2)' }}>
+            <div style={{ display: 'flex', gap: '8px 14px', fontSize: '13px', fontWeight: 600, color: 'var(--slate2)', flexWrap: 'wrap' }}>
               <span style={{ color: 'var(--orange)' }}>Single Rule Engine</span>
               <span>·</span>
               <span>FastAPI Backend</span>
@@ -124,7 +124,7 @@ function MainApp() {
               <span>Model Context Protocol</span>
             </div>
           </div>
-          <p style={{ fontSize: '0.82rem', color: 'var(--muted)', borderTop: '1px solid var(--line)', paddingTop: '16px', margin: 0 }}>
+          <p style={{ fontSize: '0.82rem', color: 'var(--muted)', borderTop: '1px solid var(--line)', paddingTop: '16px', margin: 0, lineHeight: 1.6 }}>
             Asia/Kolkata Timezone · Zero Double Bookings Guarantee · Deterministic Emergency Red-Flag Triage · Synthetic Clinical Dataset
           </p>
         </div>

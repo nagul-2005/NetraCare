@@ -120,7 +120,7 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
         className="card hero-grid-bg reveal-on-scroll"
         style={{
           position: 'relative',
-          padding: '68px 32px 60px 32px',
+          padding: 'clamp(36px, 7vw, 68px) clamp(16px, 4vw, 32px)',
           textAlign: 'center',
           overflow: 'hidden',
           display: 'flex',
@@ -306,7 +306,7 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: '24px',
           width: '100%',
         }}
@@ -395,7 +395,7 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '18px', width: '100%' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '18px', width: '100%' }}>
           {doctors.map((doc) => (
             <div
               key={doc.id}

@@ -153,7 +153,7 @@ export default function PatientDashboard() {
         </div>
       )}
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '24px', alignItems: 'start' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', alignItems: 'start' }}>
         {/* Booking Wizard Card */}
         <div className="card">
           <span className="eyebrow">Schedule Consultation</span>

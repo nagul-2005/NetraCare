@@ -173,6 +173,8 @@ export default function StaffDashboard() {
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: '12px',
                   boxShadow: 'var(--card-shadow)',
                 }}
               >
@@ -223,6 +225,8 @@ export default function StaffDashboard() {
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: '10px',
                   background: 'var(--wash)',
                 }}
               >
@@ -280,6 +284,8 @@ export default function StaffDashboard() {
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: '10px',
                   background: 'var(--wash)',
                 }}
               >
@@ -320,28 +326,32 @@ export default function StaffDashboard() {
             <h3 style={{ fontSize: '1.25rem', margin: 0, color: 'var(--ink)' }}>Clinic Appointment Master List</h3>
           </div>
 
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
-            <label style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--ink)' }}>Date:</label>
-            <input
-              type="date"
-              className="form-control"
-              value={filterDate}
-              onChange={(e) => setFilterDate(e.target.value)}
-              style={{ width: '155px' }}
-            />
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <label style={{ fontSize: '0.86rem', fontWeight: 600, color: 'var(--ink)' }}>Date:</label>
+              <input
+                type="date"
+                className="form-control"
+                value={filterDate}
+                onChange={(e) => setFilterDate(e.target.value)}
+                style={{ minWidth: '135px', padding: '6px 10px' }}
+              />
+            </div>
 
-            <label style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--ink)', marginLeft: '6px' }}>Doctor:</label>
-            <select
-              className="form-control"
-              value={selectedDoctor}
-              onChange={(e) => setSelectedDoctor(e.target.value)}
-              style={{ width: '175px' }}
-            >
-              <option value="">All Doctors</option>
-              {doctors.map((d) => (
-                <option key={d.id} value={d.id}>{d.name}</option>
-              ))}
-            </select>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <label style={{ fontSize: '0.86rem', fontWeight: 600, color: 'var(--ink)' }}>Doctor:</label>
+              <select
+                className="form-control"
+                value={selectedDoctor}
+                onChange={(e) => setSelectedDoctor(e.target.value)}
+                style={{ minWidth: '150px', padding: '6px 10px' }}
+              >
+                <option value="">All Doctors</option>
+                {doctors.map((d) => (
+                  <option key={d.id} value={d.id}>{d.name}</option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 

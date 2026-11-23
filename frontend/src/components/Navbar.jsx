@@ -113,33 +113,39 @@ export default function Navbar({ currentTab, setCurrentTab }) {
         </div>
 
         {/* Right Action: Orange Button or User Chip */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           {user ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span className="badge" style={{ textTransform: 'capitalize' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span className="badge" style={{ textTransform: 'capitalize', display: 'flex', alignItems: 'center', fontSize: '0.78rem', padding: '4px 8px' }}>
                 {user.role === 'patient' && <User size={13} style={{ marginRight: '4px' }} />}
                 {user.role === 'doctor' && <Stethoscope size={13} style={{ marginRight: '4px' }} />}
                 {['staff', 'admin', 'sub_admin'].includes(user.role) && <ShieldCheck size={13} style={{ marginRight: '4px' }} />}
-                {user.name.split(' ')[0]} ({user.role})
+                <span className="hide-on-mobile-xs" style={{ maxWidth: '75px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {user.name.split(' ')[0]}
+                </span>
+                <span style={{ marginLeft: '3px' }}>({user.role})</span>
               </span>
               <button
                 className="btn btn-secondary"
-                style={{ padding: '6px 12px', fontSize: '0.82rem' }}
+                style={{ padding: '6px 10px', fontSize: '0.8rem', minHeight: '34px' }}
                 onClick={() => {
                   logout();
                   setCurrentTab('home');
                 }}
+                title="Log out"
               >
-                <LogOut size={13} /> Log out
+                <LogOut size={13} />
+                <span className="hide-on-mobile-xs">Log out</span>
               </button>
             </div>
           ) : (
             <button
               className="btn btn-primary"
               style={{
-                padding: '9px 18px',
-                fontSize: '14px',
+                padding: '8px 14px',
+                fontSize: '13px',
                 fontWeight: 600,
+                minHeight: '34px',
               }}
               onClick={() => setCurrentTab('login')}
             >
@@ -174,9 +180,9 @@ export default function Navbar({ currentTab, setCurrentTab }) {
         <div
           style={{
             position: 'absolute',
-            top: '68px',
-            left: '16px',
-            right: '16px',
+            top: '64px',
+            left: '12px',
+            right: '12px',
             background: 'var(--paper)',
             borderRadius: '14px',
             border: '1px solid var(--line)',
@@ -188,6 +194,13 @@ export default function Navbar({ currentTab, setCurrentTab }) {
             zIndex: 1100,
           }}
         >
+          {user && (
+            <div style={{ padding: '8px 12px', background: 'var(--wash)', borderRadius: '8px', marginBottom: '4px', fontSize: '0.88rem' }}>
+              <div style={{ color: 'var(--muted)', fontSize: '0.74rem', textTransform: 'uppercase', fontWeight: 700 }}>Signed In As</div>
+              <div style={{ fontWeight: 700, color: 'var(--ink)' }}>{user.name} ({user.role})</div>
+            </div>
+          )}
+
           <button
             className="btn btn-secondary"
             style={{ justifyContent: 'flex-start', padding: '10px 14px', fontSize: '14px' }}
@@ -244,6 +257,20 @@ export default function Navbar({ currentTab, setCurrentTab }) {
               onClick={() => handleNav('staff')}
             >
               Staff Dashboard
+            </button>
+          )}
+
+          {user && (
+            <button
+              className="btn btn-secondary"
+              style={{ justifyContent: 'flex-start', padding: '10px 14px', fontSize: '14px', color: 'var(--danger)', marginTop: '6px' }}
+              onClick={() => {
+                setMobileMenuOpen(false);
+                logout();
+                setCurrentTab('home');
+              }}
+            >
+              <LogOut size={14} /> Log out
             </button>
           )}
         </div>

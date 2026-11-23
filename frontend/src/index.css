@@ -173,9 +173,15 @@ code,
   box-sizing: border-box;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .container {
-    padding: 16px 16px;
+    padding: 18px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 14px 12px;
   }
 }
 
@@ -790,13 +796,63 @@ textarea:focus {
   animation: revealUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Media Queries */
+/* Doctor Appointment Card Responsive Layout */
+.doctor-appt-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px 22px;
+  display: grid;
+  grid-template-columns: 140px 1fr auto;
+  gap: 20px;
+  align-items: start;
+  box-shadow: var(--card-shadow);
+  transition: border-color 0.15s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.doctor-appt-time-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-right: 1px solid var(--line);
+  padding-right: 18px;
+}
+
+.doctor-appt-actions-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+/* Responsive Grid Utility Helpers */
+.grid-responsive-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.grid-responsive-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  width: 100%;
+}
+
+/* Media Queries & Mobile Responsiveness */
 @media (max-width: 860px) {
   .hide-on-mobile {
     display: none !important;
   }
   .mobile-nav-toggle {
     display: flex !important;
+  }
+  .nav-pill-wrapper {
+    padding: 0 16px;
+    height: 62px;
   }
 }
 
@@ -806,12 +862,86 @@ textarea:focus {
   }
 }
 
+@media (max-width: 768px) {
+  /* Prevent iOS Safari auto-zoom on input focus */
+  .form-control,
+  .input,
+  input[type="text"],
+  input[type="date"],
+  input[type="tel"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  .doctor-appt-card {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 16px 14px;
+  }
+
+  .doctor-appt-time-col {
+    border-right: none !important;
+    border-bottom: 1px solid var(--line);
+    padding-right: 0 !important;
+    padding-bottom: 12px;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+  .doctor-appt-actions-col {
+    align-items: stretch !important;
+    width: 100%;
+    margin-top: 8px;
+    border-top: 1px solid var(--line);
+    padding-top: 12px;
+  }
+
+  .doctor-appt-actions-col .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 @media (max-width: 640px) {
   .card {
-    padding: 20px 18px;
+    padding: 20px 16px;
     border-radius: 12px;
   }
   .dark-panel {
-    padding: 24px 20px;
+    padding: 24px 18px;
+  }
+  .btn {
+    padding: 9px 15px;
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hide-on-mobile-xs {
+    display: none !important;
+  }
+  .nav-pill-wrapper {
+    padding: 0 10px;
+    height: 58px;
+  }
+  .card {
+    padding: 16px 12px;
+  }
+  .clinical-scenario-card {
+    flex: 0 0 calc(100vw - 44px) !important;
+    max-width: 300px;
+  }
+  h1 {
+    font-size: 2.1rem !important;
+    line-height: 1.05 !important;
+  }
+  h2 {
+    font-size: 1.5rem !important;
+  }
+  .slot-btn {
+    padding: 8px 4px;
+    font-size: 0.8rem;
   }
 }

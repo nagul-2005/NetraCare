@@ -598,11 +598,12 @@ export default function PatientChat() {
               fontSize: '0.84rem',
               fontWeight: 600,
               whiteSpace: 'nowrap',
+              flexShrink: 0,
             }}
             title="Upload prescription or eye photo"
           >
             <Paperclip size={15} color="var(--orange)" />
-            <span>Scan</span>
+            <span className="hide-on-mobile-xs">Scan</span>
           </button>
 
           <input
@@ -620,16 +621,17 @@ export default function PatientChat() {
             onKeyDown={handleKeyDown}
             maxLength={500}
             disabled={loading}
-            style={{ flex: 1 }}
+            style={{ flex: 1, minWidth: '120px' }}
           />
 
           <button
             onClick={() => handleSend()}
             disabled={loading || (!input.trim() && !selectedImage)}
             className="btn btn-primary"
-            style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '9px 16px' }}
+            style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '9px 14px', flexShrink: 0 }}
           >
-            <Send size={15} /> Send
+            <Send size={15} />
+            <span className="hide-on-mobile-xs">Send</span>
           </button>
         </div>
 

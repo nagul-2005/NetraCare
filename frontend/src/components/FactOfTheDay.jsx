@@ -39,11 +39,12 @@ export default function FactOfTheDay() {
         background: 'var(--paper)',
         border: '1px solid var(--line)',
         borderRadius: 'var(--radius-card)',
-        padding: '18px 22px',
+        padding: '16px 20px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        gap: '16px',
+        flexWrap: 'wrap',
+        gap: '14px',
         boxShadow: 'var(--card-shadow)',
       }}
     >
