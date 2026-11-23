@@ -130,8 +130,8 @@ export default function Login({ onLoginSuccess }) {
         <h2 style={{ fontSize: '1.75rem', textAlign: 'center', marginBottom: '6px', color: 'var(--ink)' }}>
           {role === 'patient'
             ? patientMode === 'register'
-              ? 'New Patient Registration'
-              : 'Patient Sign In'
+              ? 'Patient Register'
+              : 'Patient SignIn'
             : role === 'doctor'
             ? 'Doctor Portal'
             : 'Staff Portal'}
@@ -208,59 +208,61 @@ export default function Login({ onLoginSuccess }) {
           </button>
         </div>
 
-        {/* Patient Sub-Toggle: Sign In vs Register */}
+        {/* Patient Sub-Toggle: SignIn vs Register */}
         {role === 'patient' && (
           <div style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
             gap: '6px',
-            background: 'var(--orangeWash)',
-            padding: '4px',
-            borderRadius: '9px',
-            border: '1px solid var(--orangeLine)',
-            marginBottom: '20px',
+            background: 'var(--wash)',
+            padding: '5px',
+            borderRadius: '10px',
+            border: '1px solid var(--line)',
+            marginBottom: '22px',
           }}>
             <button
               type="button"
               className="btn"
               style={{
                 background: patientMode === 'signin' ? 'var(--paper)' : 'transparent',
-                color: patientMode === 'signin' ? 'var(--orangeDark)' : 'var(--slate2)',
+                color: patientMode === 'signin' ? 'var(--orangeDark)' : 'var(--muted)',
                 border: patientMode === 'signin' ? '1px solid var(--orangeLine)' : '1px solid transparent',
                 boxShadow: patientMode === 'signin' ? 'var(--card-shadow)' : 'none',
                 fontWeight: patientMode === 'signin' ? 700 : 500,
-                borderRadius: '7px',
-                padding: '7px',
-                fontSize: '0.84rem',
+                borderRadius: '8px',
+                padding: '9px 12px',
+                fontSize: '0.88rem',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '5px',
+                gap: '6px',
+                transition: 'all 0.15s ease',
               }}
               onClick={() => { setPatientMode('signin'); setError(null); }}
             >
-              <LogIn size={14} /> Returning Patient (Sign In)
+              <LogIn size={15} /> SignIn
             </button>
             <button
               type="button"
               className="btn"
               style={{
                 background: patientMode === 'register' ? 'var(--paper)' : 'transparent',
-                color: patientMode === 'register' ? 'var(--orangeDark)' : 'var(--slate2)',
+                color: patientMode === 'register' ? 'var(--orangeDark)' : 'var(--muted)',
                 border: patientMode === 'register' ? '1px solid var(--orangeLine)' : '1px solid transparent',
                 boxShadow: patientMode === 'register' ? 'var(--card-shadow)' : 'none',
                 fontWeight: patientMode === 'register' ? 700 : 500,
-                borderRadius: '7px',
-                padding: '7px',
-                fontSize: '0.84rem',
+                borderRadius: '8px',
+                padding: '9px 12px',
+                fontSize: '0.88rem',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '5px',
+                gap: '6px',
+                transition: 'all 0.15s ease',
               }}
               onClick={() => { setPatientMode('register'); setError(null); }}
             >
-              <UserPlus size={14} /> New Comer (Register)
+              <UserPlus size={15} /> Register
             </button>
           </div>
         )}
@@ -459,7 +461,7 @@ export default function Login({ onLoginSuccess }) {
               </>
             ) : (
               <>
-                Sign In <ArrowRight size={16} />
+                SignIn <ArrowRight size={16} />
               </>
             )}
           </button>
@@ -483,7 +485,7 @@ export default function Login({ onLoginSuccess }) {
                     textDecoration: 'underline',
                   }}
                 >
-                  Create an account (Register)
+                  Register here
                 </button>
               </span>
             ) : (
@@ -501,7 +503,7 @@ export default function Login({ onLoginSuccess }) {
                     textDecoration: 'underline',
                   }}
                 >
-                  Sign In here
+                  SignIn here
                 </button>
               </span>
             )}
