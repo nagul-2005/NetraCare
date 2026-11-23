@@ -25,6 +25,8 @@ class ReasonCode(str, Enum):
     PATIENT_DETAILS_MISMATCH = "PATIENT_DETAILS_MISMATCH"
     RED_FLAG = "RED_FLAG"
     ACTIVE_WITH_DOCTOR_EXISTS = "ACTIVE_WITH_DOCTOR_EXISTS"
+    PATIENT_NOT_FOUND = "PATIENT_NOT_FOUND"
+    MOBILE_ALREADY_REGISTERED = "MOBILE_ALREADY_REGISTERED"
 
 REASON_MESSAGES = {
     ReasonCode.INVALID_START_TIME: "Appointment start times must be on a 10-minute mark.",
@@ -48,5 +50,7 @@ REASON_MESSAGES = {
     ReasonCode.PATIENT_DETAILS_MISMATCH: "The provided mobile number is already registered under a different name.",
     ReasonCode.RED_FLAG: "Urgent red-flag symptom detected. Emergency assistance required.",
     ReasonCode.ACTIVE_WITH_DOCTOR_EXISTS: "The patient already has an active booking with this doctor.",
+    ReasonCode.PATIENT_NOT_FOUND: "No account found with this mobile number. Please register as a new patient.",
+    ReasonCode.MOBILE_ALREADY_REGISTERED: "This mobile number is already registered. Please sign in instead.",
 }
 

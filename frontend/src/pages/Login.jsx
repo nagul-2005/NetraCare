@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { api } from '../api/client';
 import NetraCareLogo from '../components/NetraCareLogo';
-import { User, Stethoscope, ShieldCheck, ArrowRight, AlertCircle } from 'lucide-react';
+import { User, Stethoscope, ShieldCheck, ArrowRight, AlertCircle, CheckCircle, UserPlus, LogIn, Sparkles } from 'lucide-react';
 
 const DOCTORS = [
   { id: 'D1', name: 'Dr. Anand Rao', spec: 'Cataract, General' },
@@ -12,14 +13,46 @@ const DOCTORS = [
 ];
 
 export default function Login({ onLoginSuccess }) {
-  const { login } = useAuth();
+  const { login, register } = useAuth();
   const [role, setRole] = useState('patient');
+  const [patientMode, setPatientMode] = useState('signin'); // 'signin' or 'register'
+  
+  // Patient fields
   const [mobile, setMobile] = useState('');
   const [name, setName] = useState('');
+  const [age, setAge] = useState('');
+  
+  // Availability status for registration
+  const [checkingMobile, setCheckingMobile] = useState(false);
+  const [mobileStatus, setMobileStatus] = useState(null); // { available: bool, registered: bool, name?: str }
+
+  // Doctor & Staff fields
   const [doctorId, setDoctorId] = useState('D1');
   const [staffName, setStaffName] = useState('Front Desk Staff');
+  
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+
+  // Check mobile availability when user enters 10 digits in register mode
+  useEffect(() => {
+    const clean = mobile.trim();
+    if (role === 'patient' && patientMode === 'register' && clean.length >= 10) {
+      const timer = setTimeout(async () => {
+        setCheckingMobile(true);
+        try {
+          const res = await api.checkAvailability(clean);
+          setMobileStatus(res);
+        } catch (err) {
+          setMobileStatus(null);
+        } finally {
+          setCheckingMobile(false);
+        }
+      }, 350);
+      return () => clearTimeout(timer);
+    } else {
+      setMobileStatus(null);
+    }
+  }, [mobile, role, patientMode]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,43 +60,91 @@ export default function Login({ onLoginSuccess }) {
     setSubmitting(true);
 
     try {
-      let payload;
       if (role === 'patient') {
-        payload = { role: 'patient', mobile: mobile.trim(), name: name.trim() };
-      } else if (role === 'doctor') {
-        payload = { role: 'doctor', doctor_id: doctorId };
-      } else {
-        payload = { role: 'staff', name: staffName.trim() };
-      }
+        if (patientMode === 'register') {
+          const parsedAge = parseInt(age, 10);
+          if (isNaN(parsedAge) || parsedAge < 1 || parsedAge > 120) {
+            setError('Please enter a valid age between 1 and 120 years.');
+            setSubmitting(false);
+            return;
+          }
 
-      const res = await login(payload);
-      if (res.ok) {
-        onLoginSuccess(role);
+          const res = await register({
+            name: name.trim(),
+            mobile: mobile.trim(),
+            age: parsedAge,
+          });
+          if (res.ok) {
+            onLoginSuccess('patient');
+          }
+        } else {
+          // Sign In
+          const res = await login({
+            role: 'patient',
+            mobile: mobile.trim(),
+            name: name.trim(),
+          });
+          if (res.ok) {
+            onLoginSuccess('patient');
+          }
+        }
+      } else if (role === 'doctor') {
+        const res = await login({ role: 'doctor', doctor_id: doctorId });
+        if (res.ok) {
+          onLoginSuccess('doctor');
+        }
+      } else {
+        const res = await login({ role: 'staff', name: staffName.trim() });
+        if (res.ok) {
+          onLoginSuccess('staff');
+        }
       }
     } catch (err) {
-      setError(err.message || 'Login failed. Please verify your details.');
+      const errMsg = err.message || (typeof err.data === 'string' ? err.data : 'Authentication failed. Please verify your details.');
+      setError(errMsg);
     } finally {
       setSubmitting(false);
     }
   };
 
+  const switchToRegister = () => {
+    setPatientMode('register');
+    setError(null);
+  };
+
+  const switchToSignIn = (prefillName = '') => {
+    setPatientMode('signin');
+    if (prefillName) setName(prefillName);
+    setError(null);
+  };
+
   return (
     <div className="container" style={{ maxWidth: '480px', marginTop: '36px', marginBottom: '36px' }}>
       <div className="card" style={{ padding: '38px 32px', textAlign: 'center', boxShadow: 'var(--browser-shadow)' }}>
-        {/* Logo and Eyebrow properly stacked */}
+        {/* Logo and Eyebrow */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '14px' }}>
           <NetraCareLogo size={44} />
-          <span className="eyebrow" style={{ marginTop: '12px', marginBottom: '0' }}>Role Verification</span>
+          <span className="eyebrow" style={{ marginTop: '12px', marginBottom: '0' }}>Portal Authentication</span>
         </div>
 
         <h2 style={{ fontSize: '1.75rem', textAlign: 'center', marginBottom: '6px', color: 'var(--ink)' }}>
-          Sign In to NetraCare
+          {role === 'patient'
+            ? patientMode === 'register'
+              ? 'New Patient Registration'
+              : 'Patient Sign In'
+            : role === 'doctor'
+            ? 'Doctor Portal'
+            : 'Staff Portal'}
         </h2>
-        <p style={{ textAlign: 'center', color: 'var(--muted)', fontSize: '0.92rem', marginBottom: '24px' }}>
-          Select your portal role to access your schedule and care appointments.
+        <p style={{ textAlign: 'center', color: 'var(--muted)', fontSize: '0.92rem', marginBottom: '22px' }}>
+          {role === 'patient'
+            ? patientMode === 'register'
+              ? 'Enter your details to create your patient profile.'
+              : 'Sign in to access your consultations and booking assistant.'
+            : 'Select your role to access clinic care and appointments.'}
         </p>
 
-        {/* Role Tabs */}
+        {/* Primary Role Tabs */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr 1fr',
@@ -72,7 +153,7 @@ export default function Login({ onLoginSuccess }) {
           padding: '4px',
           borderRadius: '11px',
           border: '1px solid var(--line)',
-          marginBottom: '24px',
+          marginBottom: '20px',
         }}>
           <button
             type="button"
@@ -127,6 +208,64 @@ export default function Login({ onLoginSuccess }) {
           </button>
         </div>
 
+        {/* Patient Sub-Toggle: Sign In vs Register */}
+        {role === 'patient' && (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '6px',
+            background: 'var(--orangeWash)',
+            padding: '4px',
+            borderRadius: '9px',
+            border: '1px solid var(--orangeLine)',
+            marginBottom: '20px',
+          }}>
+            <button
+              type="button"
+              className="btn"
+              style={{
+                background: patientMode === 'signin' ? 'var(--paper)' : 'transparent',
+                color: patientMode === 'signin' ? 'var(--orangeDark)' : 'var(--slate2)',
+                border: patientMode === 'signin' ? '1px solid var(--orangeLine)' : '1px solid transparent',
+                boxShadow: patientMode === 'signin' ? 'var(--card-shadow)' : 'none',
+                fontWeight: patientMode === 'signin' ? 700 : 500,
+                borderRadius: '7px',
+                padding: '7px',
+                fontSize: '0.84rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '5px',
+              }}
+              onClick={() => { setPatientMode('signin'); setError(null); }}
+            >
+              <LogIn size={14} /> Returning Patient (Sign In)
+            </button>
+            <button
+              type="button"
+              className="btn"
+              style={{
+                background: patientMode === 'register' ? 'var(--paper)' : 'transparent',
+                color: patientMode === 'register' ? 'var(--orangeDark)' : 'var(--slate2)',
+                border: patientMode === 'register' ? '1px solid var(--orangeLine)' : '1px solid transparent',
+                boxShadow: patientMode === 'register' ? 'var(--card-shadow)' : 'none',
+                fontWeight: patientMode === 'register' ? 700 : 500,
+                borderRadius: '7px',
+                padding: '7px',
+                fontSize: '0.84rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '5px',
+              }}
+              onClick={() => { setPatientMode('register'); setError(null); }}
+            >
+              <UserPlus size={14} /> New Comer (Register)
+            </button>
+          </div>
+        )}
+
+        {/* Error Alert with switch action if patient not found */}
         {error && (
           <div style={{
             background: 'var(--danger-soft)',
@@ -136,32 +275,40 @@ export default function Login({ onLoginSuccess }) {
             padding: '12px 14px',
             marginBottom: '20px',
             display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
+            flexDirection: 'column',
+            gap: '8px',
             fontSize: '0.88rem',
             textAlign: 'left',
           }}>
-            <AlertCircle size={18} style={{ flexShrink: 0 }} />
-            <span>{error}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <AlertCircle size={18} style={{ flexShrink: 0 }} />
+              <span>{error}</span>
+            </div>
+            {role === 'patient' && patientMode === 'signin' && error.toLowerCase().includes('register') && (
+              <button
+                type="button"
+                onClick={switchToRegister}
+                className="btn btn-secondary"
+                style={{
+                  alignSelf: 'flex-start',
+                  fontSize: '0.82rem',
+                  padding: '5px 12px',
+                  border: '1px solid var(--orangeLine)',
+                  color: 'var(--orangeDark)',
+                  background: 'var(--paper)',
+                }}
+              >
+                Register as a New Patient &rarr;
+              </button>
+            )}
           </div>
         )}
 
+        {/* Forms */}
         <form onSubmit={handleSubmit} style={{ textAlign: 'left' }}>
-          {role === 'patient' && (
+          {role === 'patient' && patientMode === 'signin' && (
             <div>
               <div className="form-group">
-                <label className="form-label">Mobile Number</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="e.g. 9000000001"
-                  value={mobile}
-                  onChange={(e) => setMobile(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="form-group" style={{ marginBottom: '24px' }}>
                 <label className="form-label">Full Name</label>
                 <input
                   type="text"
@@ -171,6 +318,98 @@ export default function Login({ onLoginSuccess }) {
                   onChange={(e) => setName(e.target.value)}
                   required
                 />
+              </div>
+
+              <div className="form-group" style={{ marginBottom: '22px' }}>
+                <label className="form-label">Registered Mobile Number</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="e.g. 9000000001"
+                  value={mobile}
+                  onChange={(e) => setMobile(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+          )}
+
+          {role === 'patient' && patientMode === 'register' && (
+            <div>
+              <div className="form-group">
+                <label className="form-label">Full Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="e.g. Rahul Sharma"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <label className="form-label">Mobile Number</label>
+                  {checkingMobile && (
+                    <span style={{ fontSize: '0.74rem', color: 'var(--muted)' }}>Checking availability...</span>
+                  )}
+                </div>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="10-digit mobile number"
+                  value={mobile}
+                  onChange={(e) => setMobile(e.target.value)}
+                  maxLength={15}
+                  required
+                />
+                {/* Real-time Availability Feedback */}
+                {mobileStatus && (
+                  <div style={{ marginTop: '5px', fontSize: '0.80rem' }}>
+                    {mobileStatus.available ? (
+                      <span style={{ color: 'var(--success)', display: 'inline-flex', alignItems: 'center', gap: '4px', fontWeight: 600 }}>
+                        <CheckCircle size={13} /> Mobile number is available
+                      </span>
+                    ) : (
+                      <span style={{ color: 'var(--danger)', display: 'inline-flex', alignItems: 'center', gap: '4px', fontWeight: 500 }}>
+                        <AlertCircle size={13} /> Already registered under {mobileStatus.name}.{' '}
+                        <button
+                          type="button"
+                          onClick={() => switchToSignIn(mobileStatus.name)}
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            color: 'var(--orangeDark)',
+                            textDecoration: 'underline',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            padding: 0,
+                          }}
+                        >
+                          Sign In?
+                        </button>
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              <div className="form-group" style={{ marginBottom: '22px' }}>
+                <label className="form-label">Age (in years)</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  placeholder="e.g. 28"
+                  value={age}
+                  onChange={(e) => setAge(e.target.value)}
+                  min="1"
+                  max="120"
+                  required
+                />
+                <span style={{ fontSize: '0.74rem', color: 'var(--muted)', marginTop: '3px', display: 'block' }}>
+                  Age helps our clinical assistant route you to appropriate adult or paediatric specialists.
+                </span>
               </div>
             </div>
           )}
@@ -209,12 +448,65 @@ export default function Login({ onLoginSuccess }) {
           <button
             type="submit"
             className="btn btn-primary"
-            style={{ width: '100%', padding: '12px', fontSize: '0.96rem' }}
+            style={{ width: '100%', padding: '12px', fontSize: '0.96rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
             disabled={submitting}
           >
-            {submitting ? 'Authenticating...' : 'Sign In'} <ArrowRight size={16} />
+            {submitting ? (
+              'Processing...'
+            ) : role === 'patient' && patientMode === 'register' ? (
+              <>
+                <UserPlus size={16} /> Register & Enter Portal
+              </>
+            ) : (
+              <>
+                Sign In <ArrowRight size={16} />
+              </>
+            )}
           </button>
         </form>
+
+        {/* Switch link footer for patients */}
+        {role === 'patient' && (
+          <div style={{ marginTop: '18px', fontSize: '0.84rem', color: 'var(--muted)', textAlign: 'center' }}>
+            {patientMode === 'signin' ? (
+              <span>
+                New to NetraCare?{' '}
+                <button
+                  type="button"
+                  onClick={switchToRegister}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--orangeDark)',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    textDecoration: 'underline',
+                  }}
+                >
+                  Create an account (Register)
+                </button>
+              </span>
+            ) : (
+              <span>
+                Already have an account?{' '}
+                <button
+                  type="button"
+                  onClick={() => switchToSignIn()}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--orangeDark)',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    textDecoration: 'underline',
+                  }}
+                >
+                  Sign In here
+                </button>
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

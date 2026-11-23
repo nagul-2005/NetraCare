@@ -31,6 +31,16 @@ export function AuthProvider({ children }) {
     return res;
   };
 
+  const register = async (payload) => {
+    const res = await api.register(payload);
+    if (res.ok) {
+      setUser(res.user);
+      localStorage.setItem('netracare_session_token', res.session_token);
+      localStorage.setItem('netracare_user', JSON.stringify(res.user));
+    }
+    return res;
+  };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem('netracare_session_token');
@@ -40,7 +50,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

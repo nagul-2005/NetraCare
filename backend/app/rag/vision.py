@@ -111,7 +111,10 @@ def analyze_eye_image(
             raw_text = re.sub(r"\s*```$", "", raw_text)
 
             parsed = json.loads(raw_text)
-            return parsed
+            if isinstance(parsed, list) and len(parsed) > 0 and isinstance(parsed[0], dict):
+                parsed = parsed[0]
+            if isinstance(parsed, dict):
+                return parsed
         except Exception:
             continue
 

@@ -40,6 +40,8 @@ async function request(endpoint, options = {}) {
 export const api = {
   // Auth
   login: (payload) => request('/auth/login', { method: 'POST', body: JSON.stringify(payload) }),
+  register: (payload) => request('/auth/register', { method: 'POST', body: JSON.stringify(payload) }),
+  checkAvailability: (mobile) => request(`/auth/check-availability?mobile=${encodeURIComponent(mobile)}`),
   getMe: () => request('/auth/me'),
 
   // Public

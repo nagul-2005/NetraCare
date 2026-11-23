@@ -72,6 +72,10 @@ def patient_chat_endpoint(
                 mime_type=req.image_mime_type or "image/jpeg",
                 user_prompt=req.message or "",
             )
+            if isinstance(vision_result, list) and vision_result and isinstance(vision_result[0], dict):
+                vision_result = vision_result[0]
+            elif not isinstance(vision_result, dict):
+                vision_result = {"summary": str(vision_result), "extracted_parameters": {}}
 
         # 1. Handle confirmation card response
         if req.confirm is not None:
