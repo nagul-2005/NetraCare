@@ -95,42 +95,43 @@ export default function DoctorDashboard() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
         <div>
           <span className="eyebrow">Doctor Station</span>
-          <h2 style={{ fontSize: '1.9rem', marginTop: '2px', color: 'var(--ink)' }}>{user.name} — OPD Schedule</h2>
-          <p style={{ color: 'var(--muted)', fontSize: '0.94rem' }}>Doctor ID: <span className="mono">{user.id}</span></p>
+          <h2 style={{ fontSize: 'clamp(1.4rem, 4vw, 1.9rem)', marginTop: '2px', color: 'var(--ink)' }}>{user.name} — OPD Schedule</h2>
+          <p style={{ color: 'var(--muted)', fontSize: '0.92rem' }}>Doctor ID: <span className="mono">{user.id}</span></p>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <button className="btn btn-secondary" onClick={() => setShowLeaveModal(true)} style={{ color: 'var(--orangeDark)', fontWeight: 600 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+          <button className="btn btn-secondary" onClick={() => setShowLeaveModal(true)} style={{ color: 'var(--orangeDark)', fontWeight: 600, padding: '7px 12px', fontSize: '0.84rem' }}>
             Mark Leave (R7)
           </button>
-          <label style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ink)' }}>Select Date:</label>
-          <input
-            type="date"
-            className="form-control"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            style={{ width: '170px' }}
-          />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <label style={{ fontWeight: 600, fontSize: '0.84rem', color: 'var(--ink)' }}>Date:</label>
+            <input
+              type="date"
+              className="form-control"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              style={{ width: '145px', padding: '6px 10px' }}
+            />
+          </div>
         </div>
       </div>
 
       {/* Session status banner */}
       {scheduleData?.sessions && (
-        <div className="card" style={{ display: 'flex', gap: '20px', alignItems: 'center', padding: '14px 20px', background: 'var(--wash)', border: '1px solid var(--line)', flexWrap: 'wrap' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ fontWeight: 600, color: 'var(--slate)', fontSize: '0.86rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-              Morning Session (09:00 - 13:00):
+        <div className="card" style={{ display: 'flex', gap: '12px 20px', alignItems: 'center', padding: '12px 16px', background: 'var(--wash)', border: '1px solid var(--line)', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontWeight: 600, color: 'var(--slate)', fontSize: '0.82rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Morning (09:00 - 13:00):
             </span>
-            <span className={`badge ${scheduleData.sessions.AM === 'OPD' ? 'badge-opd' : 'badge-off'}`} style={{ fontSize: '0.78rem' }}>
+            <span className={`badge ${scheduleData.sessions.AM === 'OPD' ? 'badge-opd' : 'badge-off'}`} style={{ fontSize: '0.76rem' }}>
               {scheduleData.sessions.AM || 'NO OPD'}
             </span>
           </div>
-          <div style={{ width: '1px', height: '18px', background: 'var(--line)' }} className="hide-mobile" />
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ fontWeight: 600, color: 'var(--slate)', fontSize: '0.86rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-              Evening Session (14:00 - 18:00):
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontWeight: 600, color: 'var(--slate)', fontSize: '0.82rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Evening (14:00 - 18:00):
             </span>
-            <span className={`badge ${scheduleData.sessions.PM === 'OPD' ? 'badge-opd' : 'badge-off'}`} style={{ fontSize: '0.78rem' }}>
+            <span className={`badge ${scheduleData.sessions.PM === 'OPD' ? 'badge-opd' : 'badge-off'}`} style={{ fontSize: '0.76rem' }}>
               {scheduleData.sessions.PM || 'NO OPD'}
             </span>
           </div>

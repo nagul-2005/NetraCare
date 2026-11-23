@@ -120,10 +120,10 @@ export default function Navbar({ currentTab, setCurrentTab }) {
                 {user.role === 'patient' && <User size={13} style={{ marginRight: '4px' }} />}
                 {user.role === 'doctor' && <Stethoscope size={13} style={{ marginRight: '4px' }} />}
                 {['staff', 'admin', 'sub_admin'].includes(user.role) && <ShieldCheck size={13} style={{ marginRight: '4px' }} />}
-                <span className="hide-on-mobile-xs" style={{ maxWidth: '75px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <span style={{ maxWidth: '80px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {user.name.split(' ')[0]}
                 </span>
-                <span style={{ marginLeft: '3px' }}>({user.role})</span>
+                <span className="hide-on-mobile-xs" style={{ marginLeft: '3px' }}>({user.role})</span>
               </span>
               <button
                 className="btn btn-secondary"
@@ -142,7 +142,7 @@ export default function Navbar({ currentTab, setCurrentTab }) {
             <button
               className="btn btn-primary"
               style={{
-                padding: '8px 14px',
+                padding: '7px 12px',
                 fontSize: '13px',
                 fontWeight: 600,
                 minHeight: '34px',

@@ -131,8 +131,8 @@ export default function PatientDashboard() {
     <div className="container" style={{ display: 'grid', gap: '28px' }}>
       <div>
         <span className="eyebrow">Patient Portal</span>
-        <h2 style={{ fontSize: '2rem', marginTop: '2px', color: 'var(--ink)' }}>Welcome, {user.name}</h2>
-        <p style={{ color: 'var(--muted)', fontSize: '0.94rem' }}>
+        <h2 style={{ fontSize: 'clamp(1.4rem, 4vw, 2rem)', marginTop: '2px', color: 'var(--ink)' }}>Welcome, {user.name}</h2>
+        <p style={{ color: 'var(--muted)', fontSize: '0.92rem', lineHeight: 1.5 }}>
           Patient ID: <span className="mono">{user.id}</span> · Book, manage, or cancel your consultations.
         </p>
       </div>
@@ -314,6 +314,8 @@ export default function PatientDashboard() {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'flex-start',
+            flexWrap: 'wrap',
+            gap: '12px',
             marginBottom: '20px',
             paddingBottom: '16px',
             borderBottom: '1px solid var(--line)',

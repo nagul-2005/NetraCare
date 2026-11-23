@@ -207,13 +207,13 @@ export default function PatientChat() {
       )}
 
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--line)', paddingBottom: '14px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--line)', paddingBottom: '14px', flexWrap: 'wrap', gap: '10px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div className="icon-tile" style={{ width: '38px', height: '38px', borderRadius: '9px' }}>
+          <div className="icon-tile" style={{ width: '38px', height: '38px', borderRadius: '9px', flexShrink: 0 }}>
             <MessageSquare size={18} />
           </div>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
               <span className="eyebrow" style={{ marginBottom: '0' }}>Conversational Agent</span>
               <span
                 style={{
@@ -228,10 +228,10 @@ export default function PatientChat() {
                   border: '1px solid var(--orangeLine)',
                 }}
               >
-                Multimodal Vision
+                Vision AI
               </span>
             </div>
-            <h3 style={{ margin: 0, fontSize: '1.15rem' }}>NetraCare Booking & Intake Assistant</h3>
+            <h3 style={{ margin: 0, fontSize: 'clamp(0.96rem, 3.5vw, 1.15rem)', color: 'var(--ink)' }}>NetraCare Booking & Intake Assistant</h3>
           </div>
         </div>
         <button
@@ -240,18 +240,19 @@ export default function PatientChat() {
           style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', fontSize: '0.84rem' }}
           title="Clear chat and start fresh"
         >
-          <RotateCcw size={13} /> New Chat
+          <RotateCcw size={13} />
+          <span className="hide-on-mobile-xs">New Chat</span>
         </button>
       </div>
 
       {/* Suggested Questions */}
       {messages.length === 0 && (
         <div style={{ display: 'grid', gap: '8px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.84rem', color: 'var(--muted)', fontWeight: 600 }}>
               <Sparkles size={14} color="var(--orange)" /> Examples you can try:
             </div>
-            <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>
+            <span className="hide-on-mobile-xs" style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>
               Drag & drop photos or click <strong>Scan</strong>
             </span>
           </div>
@@ -635,8 +636,8 @@ export default function PatientChat() {
           </button>
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--muted)', paddingInline: '4px' }}>
-          <span>Enter to send · Drag & drop prescription cards or click Scan</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.74rem', color: 'var(--muted)', paddingInline: '4px' }}>
+          <span>Enter to send · Click Scan to upload</span>
           <span style={{ color: input.length > 450 ? 'var(--danger)' : 'var(--muted)' }}>
             {input.length}/500
           </span>

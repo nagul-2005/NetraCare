@@ -135,14 +135,14 @@ export default function StaffDashboard() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
         <div>
           <span className="eyebrow">Front Desk Operations</span>
-          <h2 style={{ fontSize: '1.9rem', marginTop: '2px', color: 'var(--ink)' }}>Staff Care Coordination Desk</h2>
-          <p style={{ color: 'var(--muted)', fontSize: '0.94rem' }}>Full clinic roster, urgent safety cases, approvals & walk-ins.</p>
+          <h2 style={{ fontSize: 'clamp(1.4rem, 4vw, 1.9rem)', marginTop: '2px', color: 'var(--ink)' }}>Staff Care Coordination Desk</h2>
+          <p style={{ color: 'var(--muted)', fontSize: '0.92rem' }}>Full clinic roster, urgent safety cases, approvals & walk-ins.</p>
         </div>
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <button className="btn btn-primary" onClick={() => setShowWalkinModal(true)}>
-            <Plus size={16} /> Book Walk-in / On-Behalf
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          <button className="btn btn-primary" onClick={() => setShowWalkinModal(true)} style={{ padding: '8px 14px', fontSize: '0.86rem' }}>
+            <Plus size={15} /> Book Walk-in / On-Behalf
           </button>
-          <button className="btn btn-secondary" onClick={refreshAll}>
+          <button className="btn btn-secondary" onClick={refreshAll} style={{ padding: '8px 14px', fontSize: '0.86rem' }}>
             <RefreshCw size={13} /> Refresh
           </button>
         </div>
@@ -360,8 +360,10 @@ export default function StaffDashboard() {
         ) : appointments.length === 0 ? (
           <p style={{ color: 'var(--muted)', fontSize: '0.9rem' }}>No appointments found matching filters.</p>
         ) : (
-          <div className="schedule-table-wrapper">
-            <table className="schedule-table">
+          <>
+            <div className="table-scroll-hint">← Swipe horizontally to view all records →</div>
+            <div className="schedule-table-wrapper">
+              <table className="schedule-table">
               <thead>
                 <tr>
                   <th style={{ textAlign: 'left' }}>ID</th>
@@ -402,6 +404,7 @@ export default function StaffDashboard() {
               </tbody>
             </table>
           </div>
+          </>
         )}
       </div>
 

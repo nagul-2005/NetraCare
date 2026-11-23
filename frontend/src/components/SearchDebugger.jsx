@@ -66,13 +66,13 @@ export default function SearchDebugger() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-          style={{ flex: 1 }}
+          style={{ flex: 1, minWidth: '120px' }}
         />
         <button
           onClick={() => handleSearch()}
           disabled={loading || !query.trim()}
           className="btn btn-primary"
-          style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+          style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}
         >
           <Search size={16} /> Search
         </button>
@@ -91,7 +91,7 @@ export default function SearchDebugger() {
       )}
 
       {results && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginTop: '8px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px', marginTop: '8px' }}>
           {/* Keyword Column */}
           <div style={{ background: 'var(--wash)', border: '1px solid var(--line)', borderRadius: '12px', padding: '16px', display: 'grid', gap: '12px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 700, color: 'var(--ink)', fontSize: '0.92rem' }}>

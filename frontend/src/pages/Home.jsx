@@ -140,22 +140,24 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '10px',
+              gap: '8px',
               background: 'var(--paper)',
               border: '1px solid var(--line)',
               borderRadius: '9999px',
-              padding: '6px 18px 6px 8px',
-              marginBottom: '22px',
+              padding: '6px 14px',
+              marginBottom: '20px',
               boxShadow: 'var(--card-shadow)',
+              maxWidth: '100%',
+              boxSizing: 'border-box',
             }}
           >
-            <NetraCareLogo size={28} />
-            <div style={{ textAlign: 'left', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <NetraCareLogo size={24} />
+            <div style={{ textAlign: 'left', display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
               <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--ink)' }}>
                 NetraCare Eye Clinic
               </span>
-              <span style={{ color: 'var(--line)' }}>|</span>
-              <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: 500, letterSpacing: '0.04em' }}>
+              <span className="hide-on-mobile-xs" style={{ color: 'var(--line)' }}>|</span>
+              <span className="hide-on-mobile-xs" style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: 500, letterSpacing: '0.04em' }}>
                 AI Front Desk & Clinical Care Coordination
               </span>
             </div>
@@ -164,11 +166,11 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
           {/* 900 Inter Headline with Single Highlight Swipe on 'gentle precision' */}
           <h1
             style={{
-              fontSize: 'clamp(2.4rem, 5.2vw, 4.2rem)',
+              fontSize: 'clamp(2.1rem, 5vw, 4.2rem)',
               fontWeight: 900,
               lineHeight: 0.98,
               letterSpacing: '-0.045em',
-              marginBottom: '22px',
+              marginBottom: '20px',
               color: 'var(--ink)',
             }}
           >
@@ -180,10 +182,10 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
           <p
             style={{
               color: 'var(--slate2)',
-              fontSize: '1.1rem',
+              fontSize: '1.05rem',
               lineHeight: 1.6,
               maxWidth: '560px',
-              margin: '0 auto 32px auto',
+              margin: '0 auto 28px auto',
               fontWeight: 400,
             }}
           >
@@ -191,20 +193,11 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
           </p>
 
           {/* Dual Action Buttons */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '14px',
-              flexWrap: 'wrap',
-              marginBottom: '36px',
-            }}
-          >
-            <button className="btn btn-primary" onClick={onNavigateToBook} style={{ padding: '13px 28px', fontSize: '0.98rem' }}>
+          <div className="hero-cta-buttons">
+            <button className="btn btn-primary" onClick={onNavigateToBook} style={{ padding: '12px 24px', fontSize: '0.96rem' }}>
               Book appointment <ChevronRight size={16} />
             </button>
-            <button className="btn btn-secondary" onClick={onNavigateToLogin} style={{ padding: '13px 24px', fontSize: '0.98rem' }}>
+            <button className="btn btn-secondary" onClick={onNavigateToLogin} style={{ padding: '12px 20px', fontSize: '0.96rem' }}>
               Access portals
             </button>
           </div>
@@ -215,13 +208,13 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '24px',
-              fontSize: '12.5px',
+              gap: '10px 20px',
+              fontSize: '12px',
               fontWeight: 600,
               color: 'var(--muted)',
               flexWrap: 'wrap',
               borderTop: '1px solid var(--line)',
-              paddingTop: '20px',
+              paddingTop: '18px',
             }}
           >
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
@@ -460,6 +453,7 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
         </div>
 
         {/* Contained responsive table wrapper */}
+        <div className="table-scroll-hint">← Swipe to view all days →</div>
         <div className="schedule-table-wrapper">
           <table className="schedule-table">
             <thead>
