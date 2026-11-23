@@ -123,7 +123,7 @@ export default function Navbar({ currentTab, setCurrentTab }) {
                 <span style={{ maxWidth: '80px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {user.name.split(' ')[0]}
                 </span>
-                <span className="hide-on-mobile-xs" style={{ marginLeft: '3px' }}>({user.role})</span>
+                <span className="hide-on-mobile" style={{ marginLeft: '3px' }}>({user.role})</span>
               </span>
               <button
                 className="btn btn-secondary"
@@ -135,7 +135,7 @@ export default function Navbar({ currentTab, setCurrentTab }) {
                 title="Log out"
               >
                 <LogOut size={13} />
-                <span className="hide-on-mobile-xs">Log out</span>
+                <span className="hide-on-mobile">Log out</span>
               </button>
             </div>
           ) : (

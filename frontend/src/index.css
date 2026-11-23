@@ -72,6 +72,7 @@
 html {
   scroll-behavior: smooth;
   width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -87,16 +88,22 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   width: 100%;
+  max-width: 100%;
   min-height: 100vh;
   position: relative;
+  overflow-x: hidden;
 }
 
 #root {
   width: 100%;
+  max-width: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   background: var(--paper);
+  overflow-x: hidden;
+  position: relative;
+  min-width: 0;
 }
 
 ::selection {
@@ -171,6 +178,7 @@ code,
   margin-right: auto;
   padding: 24px 24px;
   box-sizing: border-box;
+  min-width: 0;
 }
 
 @media (max-width: 768px) {
@@ -236,7 +244,10 @@ code,
   box-shadow: var(--card-shadow);
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .card:hover {
@@ -451,6 +462,7 @@ code,
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  min-width: 0;
 }
 
 .nav-link-btn {
@@ -625,11 +637,13 @@ textarea:focus {
 .schedule-table-wrapper {
   width: 100%;
   max-width: 100%;
+  min-width: 0;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   border-radius: var(--radius-card);
   border: 1px solid var(--line);
   background: var(--paper);
+  box-sizing: border-box;
 }
 
 .schedule-table {
@@ -973,8 +987,8 @@ textarea:focus {
     padding: 16px 12px;
   }
   .clinical-scenario-card {
-    flex: 0 0 calc(100vw - 48px) !important;
-    max-width: calc(100vw - 48px) !important;
+    flex: 0 0 min(280px, calc(100% - 24px)) !important;
+    max-width: min(280px, calc(100% - 24px)) !important;
   }
   h1 {
     font-size: 2rem !important;

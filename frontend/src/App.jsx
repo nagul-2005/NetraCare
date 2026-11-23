@@ -48,10 +48,13 @@ function MainApp() {
       <main
         style={{
           flex: 1,
-          paddingTop: '24px',
-          paddingBottom: '48px',
+          paddingTop: '20px',
+          paddingBottom: '40px',
           position: 'relative',
           width: '100%',
+          maxWidth: '100%',
+          minWidth: 0,
+          overflowX: 'hidden',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',

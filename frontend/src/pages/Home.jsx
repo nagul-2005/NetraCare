@@ -104,13 +104,15 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
     <div
       className="container"
       style={{
-        display: 'grid',
-        gap: '40px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '32px',
         position: 'relative',
         width: '100%',
         maxWidth: '1180px',
         margin: '0 auto',
         boxSizing: 'border-box',
+        minWidth: 0,
       }}
     >
       {/* =========================================================================
@@ -120,7 +122,7 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
         className="card hero-grid-bg reveal-on-scroll"
         style={{
           position: 'relative',
-          padding: 'clamp(36px, 7vw, 68px) clamp(16px, 4vw, 32px)',
+          padding: 'clamp(32px, 6vw, 68px) clamp(16px, 4vw, 32px)',
           textAlign: 'center',
           overflow: 'hidden',
           display: 'flex',
@@ -131,10 +133,12 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
           border: '1px solid var(--line)',
           boxShadow: 'var(--browser-shadow)',
           width: '100%',
+          maxWidth: '100%',
           boxSizing: 'border-box',
+          minWidth: 0,
         }}
       >
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: '820px', margin: '0 auto', width: '100%' }}>
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: '820px', margin: '0 auto', width: '100%', minWidth: 0 }}>
           {/* Eyebrow Chip */}
           <div
             style={{
@@ -156,8 +160,8 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
               <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--ink)' }}>
                 NetraCare Eye Clinic
               </span>
-              <span className="hide-on-mobile-xs" style={{ color: 'var(--line)' }}>|</span>
-              <span className="hide-on-mobile-xs" style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: 500, letterSpacing: '0.04em' }}>
+              <span className="hide-on-mobile" style={{ color: 'var(--line)' }}>|</span>
+              <span className="hide-on-mobile" style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: 500, letterSpacing: '0.04em' }}>
                 AI Front Desk & Clinical Care Coordination
               </span>
             </div>
@@ -166,12 +170,14 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
           {/* 900 Inter Headline with Single Highlight Swipe on 'gentle precision' */}
           <h1
             style={{
-              fontSize: 'clamp(2.1rem, 5vw, 4.2rem)',
+              fontSize: 'clamp(1.9rem, 4.5vw, 4.2rem)',
               fontWeight: 900,
-              lineHeight: 0.98,
-              letterSpacing: '-0.045em',
+              lineHeight: 1.08,
+              letterSpacing: '-0.035em',
               marginBottom: '20px',
               color: 'var(--ink)',
+              wordBreak: 'break-word',
+              overflowWrap: 'break-word',
             }}
           >
             Ophthalmic care, guided with{' '}
@@ -299,9 +305,10 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
           gap: '24px',
           width: '100%',
+          minWidth: 0,
         }}
       >
         {/* Hours & Sessions */}
@@ -388,7 +395,7 @@ export default function Home({ onNavigateToLogin, onNavigateToBook }) {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '18px', width: '100%' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: '18px', width: '100%', minWidth: 0 }}>
           {doctors.map((doc) => (
             <div
               key={doc.id}
