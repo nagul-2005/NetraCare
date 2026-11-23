@@ -22,6 +22,8 @@ class PatientChatRequest(BaseModel):
     thread_id: Optional[str] = Field(None, description="Conversation thread identifier for memory.")
     confirm: Optional[bool] = Field(None, description="Confirm (true) or decline (false) for a pending confirmation card.")
     history: Optional[List[Dict[str, str]]] = Field(default_factory=list, description="Legacy history field.")
+    image_base64: Optional[str] = Field(None, description="Optional base64-encoded prescription or eye image.")
+    image_mime_type: Optional[str] = Field("image/jpeg", description="MIME type of uploaded image.")
 
 class PatientChatResponse(BaseModel):
     thread_id: str
@@ -30,6 +32,7 @@ class PatientChatResponse(BaseModel):
     pending_action: Optional[Dict[str, Any]] = None
     emergency: bool = False
     answered: bool = True
+    image_analysis: Optional[Dict[str, Any]] = None
 
 @router.post("/patient/chat", response_model=PatientChatResponse)
 @track_op(name="patient_chat_turn", tags=["chat", "patient"])
@@ -60,11 +63,43 @@ def patient_chat_endpoint(
         config["callbacks"] = [tracer]
 
     try:
+        # Multimodal Vision Analysis (Prescription & Eye Photo)
+        vision_result = None
+        if req.image_base64 and req.image_base64.strip():
+            from app.rag.vision import analyze_eye_image
+            vision_result = analyze_eye_image(
+                image_base64=req.image_base64,
+                mime_type=req.image_mime_type or "image/jpeg",
+                user_prompt=req.message or "",
+            )
+
         # 1. Handle confirmation card response
         if req.confirm is not None:
             list(agent_graph.stream(Command(resume=req.confirm), config))
-        elif req.message and req.message.strip():
-            msg_text = req.message.strip()
+        elif (req.message and req.message.strip()) or vision_result:
+            msg_text = (req.message or "").strip()
+            if vision_result:
+                summary = vision_result.get("summary", "")
+                params = vision_result.get("extracted_parameters", {})
+                rec_spec = vision_result.get("recommended_speciality")
+                rec_doc = vision_result.get("recommended_doctor")
+                od_val = params.get("od", {})
+                os_val = params.get("os", {})
+                optical_notes = []
+                if isinstance(od_val, dict) and any(od_val.values()):
+                    optical_notes.append(f"OD (Right): SPH {od_val.get('sph') or '-'}, CYL {od_val.get('cyl') or '-'}, AXIS {od_val.get('axis') or '-'}")
+                if isinstance(os_val, dict) and any(os_val.values()):
+                    optical_notes.append(f"OS (Left): SPH {os_val.get('sph') or '-'}, CYL {os_val.get('cyl') or '-'}, AXIS {os_val.get('axis') or '-'}")
+                optical_summary = "; ".join(optical_notes)
+
+                vision_context = f"[Attached Image Analysis: {summary}"
+                if optical_summary:
+                    vision_context += f" | Extracted Prescription: {optical_summary}"
+                if rec_spec:
+                    vision_context += f" | Recommended Speciality: {rec_spec}"
+                vision_context += "]"
+                msg_text = f"{vision_context} {msg_text}".strip()
+
             curr_state = agent_graph.get_state(config)
 
             # If legacy history was provided and thread has no messages yet
@@ -83,7 +118,7 @@ def patient_chat_endpoint(
 
             list(agent_graph.stream({"messages": history_msgs + [HumanMessage(content=msg_text)]}, config))
         else:
-            raise HTTPException(status_code=400, detail="Either 'message' or 'confirm' must be provided.")
+            raise HTTPException(status_code=400, detail="Either 'message', 'image_base64', or 'confirm' must be provided.")
 
         # 2. Extract final state
         final_state = agent_graph.get_state(config)
@@ -174,6 +209,7 @@ def patient_chat_endpoint(
             pending_action=pending_action,
             emergency=emergency,
             answered=True,
+            image_analysis=vision_result,
         )
 
     except Exception as e:

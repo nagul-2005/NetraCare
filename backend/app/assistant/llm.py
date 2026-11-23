@@ -7,6 +7,7 @@ Provides:
 from typing import Optional, List, Dict, Any
 from pydantic import BaseModel, Field
 import os
+from datetime import datetime
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser, PydanticOutputParser
@@ -88,7 +89,7 @@ def get_fact_of_the_day(previous: Optional[str] = None) -> Dict[str, str]:
         except Exception:
             fact_text = None
 
-    if not fact_text:
+    if not fact_text or fact_text == previous:
         # Pick from fallback list avoiding previous
         for f in FALLBACK_FACTS:
             if f != previous:
@@ -97,7 +98,8 @@ def get_fact_of_the_day(previous: Optional[str] = None) -> Dict[str, str]:
         if not fact_text:
             fact_text = FALLBACK_FACTS[0]
 
-    _DAILY_FACT_CACHE[today_key] = fact_text
+    if not previous:
+        _DAILY_FACT_CACHE[today_key] = fact_text
 
     return {
         "fact": fact_text,
